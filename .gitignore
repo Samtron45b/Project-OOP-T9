@@ -1,0 +1,16 @@
+*.o
+*.stackdump
+*.depend
+*.layout
+*.cbp
+.exe
+bin
+obj
+Debug
+.vs
+.sln
+*.csv
+*.save-failed
+*.cscope_file_list
+*TMP
+.vscode

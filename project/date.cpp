@@ -148,7 +148,7 @@ float date::age(bool roundUp)
         res =temp.year-year+(12-month+temp.month)/12.0;
     }
 }
-bool date::birthdayMoth()
+bool date::birthdayMonth()
 {
     date today;
     return (month==today.month)?true:false;

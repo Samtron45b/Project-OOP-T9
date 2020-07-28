@@ -3,6 +3,30 @@
 #include <string>
 #include <fstream>
 using namespace std;
+
+// ? Optional
+
+void date::right()
+{
+    if(year<1) year=1;
+    if(month<1)
+    {
+        month=1;
+    }
+    else if (month>12)
+    {
+        month=12;
+    }
+    if(day<=0)
+    {
+        day=1;
+    }
+    else if(day>date(year,month,1).maxDay())
+    {
+        day=1;
+    }
+}
+
 date::date()
 {
     time_t t =time(0);
@@ -125,17 +149,24 @@ istream& operator>>(std::istream& in, date& a)
         getline(in,temp);
         a.year=stoi(temp);
         temp.clear();
+        in>>a.year>>a.month>>a.day;
+
     }
-    in>>a.year>>a.month>>a.day;
+    else
+    {
+        cout<<"\tInput year: ";in>>a.year;
+        cout<<"\tInput month: ";in>>a.month;
+        cout<<"\tInput day: ";in>>a.day;
+    }
     return in;
 }
-ostream& operator<<(std::ostream& out,const date a)
+ostream& operator<<(std::ostream& out,const date& a)
 {
     out<<a.day<<"/"<<a.month<<"/"<<a.year;
     return out;
 }
 
-float date::age(bool roundUp)
+float date::age(bool roundUp=true)
 {
     date temp;
     float res;

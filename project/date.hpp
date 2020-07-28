@@ -24,8 +24,10 @@ struct date
     bool birthdayMonth();
 
     friend std::istream& operator>>(std::istream& in, date& a);
-    friend std::ostream& operator<<(std::ostream& out,const date a);
-    float age(bool);
+    friend std::ostream& operator<<(std::ostream& out,const date& a);
+    float age(bool roundUp=true);
+
+    void right();// ? Optional
 };
 
 

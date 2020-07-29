@@ -139,16 +139,15 @@ istream& operator>>(std::istream& in, date& a)
 {
     if(&in!=&cin)
     {
-        string temp;
-        getline(in,temp,'/');
-        a.day=stoi(temp);
-        temp.clear();
-        getline(in,temp,'/');
-        a.month=stoi(temp);
-        temp.clear();
-        getline(in,temp);
-        a.year=stoi(temp);
-        temp.clear();
+        int temp;
+        in>>temp;
+        a.day=temp;
+        in.ignore(1);
+        in>>temp;
+        a.month=temp;
+        in.ignore(1);
+        in>>temp;
+        a.year=temp;
         in>>a.year>>a.month>>a.day;
 
     }

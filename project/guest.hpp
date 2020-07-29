@@ -3,9 +3,14 @@
 
 #include "person.hpp"
 #include <vector>
+
+struct item{
+    
+};
+
 class guest: public person{
     private:
-        // ? std::vector<item> cart;
+        std::vector<item> cart;
     public:
         guest();
         virtual ~guest(){};
@@ -18,7 +23,7 @@ class guest: public person{
         virtual void load(std::istream&);
         friend std::istream& operator>>(std::istream& in,guest& a);
         friend std::ostream& operator<<(std::ostream& out,const guest& a);
-        // ? virtual bool buy(std::vector<item>,int);
+        virtual bool buy(std::vector<item>,int);
 };
 
 class member: public guest{

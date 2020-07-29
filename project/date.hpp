@@ -26,6 +26,8 @@ struct date
     friend std::istream& operator>>(std::istream& in, date& a);
     friend std::ostream& operator<<(std::ostream& out,const date a);
     float age(bool);
+
+    void right();
 };
 
 

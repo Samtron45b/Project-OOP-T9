@@ -19,9 +19,18 @@ Project:
         ☐ input @today
         ☐ output @today
         ☐ export @today
-        ☐ payment @low 
-        ☐ print @today 
-        ☐ load @today 
-        ☐ operator>> @today 
-        ☐ operator<< @today 
-    
+        ☐ payment @low
+        ☐ print @today
+        ☐ load @today
+        ☐ operator>> @today
+        ☐ operator<< @today
+    Member:
+        ☐  menu @low
+        ☐ input @low
+        ☐ output @low
+        ☐ export @low
+        ☐ payment @low
+        ☐ print @low
+        ☐ load @low
+        ☐ operator>> @low
+        ☐ operator<< @low

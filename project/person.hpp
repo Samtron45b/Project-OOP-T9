@@ -12,7 +12,7 @@ class person
         person();
         virtual ~person();
         virtual void input();
-        virtual void output();
+        virtual void output(bool real_age=true);
         virtual void print(std::ostream&) const;
         virtual void load(std::istream&);
         friend std::istream& operator>>(std::istream& in,person& a);

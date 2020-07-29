@@ -1,9 +1,9 @@
 Project:
     Make dir & delete dir:
         ☐ Make dir @high
-        ☐ Make file @low 
-        ☐ Delete dir @high 
-        ☐ Delete file @high 
+        ☐ Make file @low
+        ☐ Delete dir @high
+        ☐ Delete file @high
     Person:
         ✔ person(); @done (7/29/2020, 12:53:23 PM)
         ✔ ~person(); @done (7/29/2020, 12:53:24 PM)
@@ -18,10 +18,10 @@ Project:
         ☐ menu @low
         ☐ input @today
         ☐ output @today
-        ☐ export @today
+        ☐ export @low
         ☐ payment @low
         ☐ print @today
-        ☐ load @today
+        ☐ load @low
         ☐ operator>> @today
         ☐ operator<< @today
     Member:

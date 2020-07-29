@@ -7,6 +7,8 @@ class guest: public person{
     private:
         // ? std::vector<item> cart;
     public:
+        guest();
+        virtual ~guest(){};
         virtual void menu();
         virtual void input();
         virtual void output();

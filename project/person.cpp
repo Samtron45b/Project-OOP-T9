@@ -37,12 +37,18 @@ void person::input()
     cout<<"Input day of birth: ";
     cin>>DoB;
 }
-void person::output()
+void person::output(bool real_age=true)
 {
     cout<<"Name : "<<name<<endl;
     cout<<"Telephone:   "<<tel<<endl;
     cout<<"Day of birth: "<<DoB<<endl;
-    cout<<"Age: "<<ceil(age)<<endl;
+    if(real_age)
+        cout<<"Age: "<<age<<endl;
+    else
+    {
+        cout<<"Age: "<<ceil(age)<<endl;
+    }
+    
 }
 void person::print(ostream& out) const
 {

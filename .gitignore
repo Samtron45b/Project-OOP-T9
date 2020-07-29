@@ -14,3 +14,4 @@ Debug
 *.cscope_file_list
 *TMP
 .vscode
+.todo

@@ -3,7 +3,7 @@
 *.depend
 *.layout
 *.cbp
-.exe
+*.exe
 bin
 obj
 Debug
@@ -14,4 +14,4 @@ Debug
 *.cscope_file_list
 *TMP
 .vscode
-.todo
+*.todo

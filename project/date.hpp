@@ -21,7 +21,7 @@ struct date
     bool operator<(const date& rhs);
     bool operator>(const date& rhs);
 
-    bool birthdayMonth();
+    bool birthdayMonth();// ! Check if birthday
 
     friend std::istream& operator>>(std::istream& in, date& a);
     friend std::ostream& operator<<(std::ostream& out,const date& a);

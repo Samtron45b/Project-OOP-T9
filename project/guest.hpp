@@ -3,14 +3,27 @@
 
 #include "person.hpp"
 #include <vector>
+#include <map>
 
 struct item{
-    
+    string name;
+    int id, storage;
+    double price;
+
+    bool get();
+    void save();
+    bool save(int);
+
 };
+
+bool operator<(const item& lhs,const item&rhs)
+{
+    return (lhs.id<rhs.id)||(lhs.id==rhs.id&&lhs.name<rhs.name);
+}
 
 class guest: public person{
     private:
-        std::vector<item> cart;
+        std::map<item,int> cart;
     public:
         guest();
         virtual ~guest(){};

@@ -48,7 +48,6 @@ void person::output(bool real_age=true)
     {
         cout<<"Age: "<<ceil(age)<<endl;
     }
-    
 }
 void person::print(ostream& out) const
 {

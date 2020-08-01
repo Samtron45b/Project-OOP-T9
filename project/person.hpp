@@ -2,6 +2,7 @@
 #define PERSON_H_
 #include <string>
 #include "date.hpp"
+#include <tuple>
 class person
 {
     private:
@@ -18,6 +19,7 @@ class person
         friend std::istream& operator>>(std::istream& in,person& a);
         friend std::ostream& operator<<(std::ostream& out,const person& a);
         virtual void menu()=0;
+        std::tuple<date,std::string,std::string> get();
 };
 
 

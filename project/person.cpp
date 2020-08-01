@@ -75,3 +75,8 @@ ostream& operator<<(ostream& out,const person& a)
     a.print(out);
     return out;
 }
+
+tuple<date,string,string> person::get()
+{
+    return make_tuple(DoB,name,tel);
+}

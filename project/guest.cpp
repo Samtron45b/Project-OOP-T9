@@ -46,7 +46,7 @@ void guest::export()
     {
         file2<<setfill('*')<<setw(29)<<fileName<<setw(23)<<"*\n";
         auto [DoB1,name1,tel1]=person::get();
-        auto [hour,min,sec]=currentTime();
+        auto [hour,min,sec]=currentTime(true);
         int age=DoB1.age(true);
         file2<<"Name        : "<<name1<<endl;
         file2<<"Telephone   : "<<tel1<<endl;

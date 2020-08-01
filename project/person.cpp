@@ -52,7 +52,6 @@ void person::output(bool real_age=true)
 void person::print(ostream& out) const
 {
     out<<name<<";"<<tel<<";"<<DoB;
-
 }
 void person::load(istream& in)
 {

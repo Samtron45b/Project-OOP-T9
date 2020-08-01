@@ -13,7 +13,7 @@ struct item{
     bool get();
     void save();
     bool save(int);
-
+    item find(int);
 };
 
 bool operator<(const item& lhs,const item&rhs)

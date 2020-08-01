@@ -16,14 +16,14 @@ Project:
         ✔ void menu()=0; @done (7/29/2020, 12:53:28 PM)
     Guest:
         ☐ menu @low
-        ☐ input @today
-        ☐ output @today
-        ☐ export @low
-        ☐ payment @low
-        ☐ print @today
-        ☐ load @low
-        ☐ operator>> @today
-        ☐ operator<< @today
+        ✔ input @today @done (8/1/2020, 10:33:04 PM)
+        ✔ output @today @done (8/1/2020, 9:21:31 PM)
+        ✔ export @low @done (8/1/2020, 9:21:28 PM)
+        ✔ payment @low @done (8/1/2020, 9:21:49 PM)
+        ✔ print @today @done (8/1/2020, 10:32:23 PM)
+        ✔ load @low @done (8/1/2020, 10:32:26 PM)
+        ✔ operator>> @today @done (8/1/2020, 10:32:27 PM)
+        ✔ operator<< @today @done (8/1/2020, 10:32:27 PM)
     Member:
         ☐  menu @low
         ☐ input @low

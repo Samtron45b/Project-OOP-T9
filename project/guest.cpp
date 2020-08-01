@@ -76,3 +76,46 @@ double guest::payment()
     return money;
 }
 
+void guest::print(ostream& out) const
+{
+    person::print(out);
+    out<<';'<<cart.size();
+    for(auto x:cart)
+    {
+        out<<';'<<x.first.id<<';'<<x.second;
+    }
+}
+void guest::load(istream& in)
+{
+    person::load(in);
+    int num;
+    in>>num;
+    for(int i=0;i<num;++i)
+    {
+        item temp;
+        int tmp;
+        in.ignore(1);
+        in>>tmp;
+        temp.find(tmp);
+        if(temp.id==-1)
+        {
+            throw "Missing item "+tmp;
+        }
+        else
+        {
+            in.ignore(1);
+            in>>tmp;
+            cart[temp]=tmp;
+        }
+    }
+}
+istream& operator>>(istream& in,guest& a)
+{
+    a.load(in);
+    return in;
+}
+ostream& operator<<(ostream& out,const guest& a)
+{
+    a.print(out);
+    return out;
+}

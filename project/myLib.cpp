@@ -17,7 +17,7 @@
 
 using namespace std;
 
-tuple<int,int,int> currentTime(bool per12=true)
+tuple<int,int,int> currentTime(bool per12)
 {
     time_t t =time(0);
     struct tm* now =localtime(&t);

@@ -19,6 +19,7 @@ class person
         friend std::istream& operator>>(std::istream& in,person& a);
         friend std::ostream& operator<<(std::ostream& out,const person& a);
         virtual void menu()=0;
+        virtual void save()=0;
         std::tuple<date,std::string,std::string> get();
 };
 

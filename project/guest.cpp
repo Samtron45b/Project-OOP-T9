@@ -8,6 +8,35 @@ using namespace std;
 
 const string url="./project/data/";
 
+float point(float pay)
+{
+    return pay/10;
+}
+
+int ranked(float point)
+{
+    if(point <1500)
+    {
+        return 3;
+    }
+    if(point<5000)
+        return 2;
+    return 1;
+}
+float discount(int rank,bool birthday)
+{
+    float birth=0;
+    if(birthday)
+        birth+=0.05;
+    if(rank==1) return birth+0.2;
+    if(rank==2) return birth+0.15;
+    if(rank==3) return birth+0.1;
+}
+void guest::menu()
+{
+
+}
+
 void guest::input()
 {
     person::input();
@@ -18,7 +47,7 @@ void guest::output()
     person::output(false);
     for(auto x:cart)
     {
-        cout<<left<<setfill(' ')<<setw(25)<<x.first.name<<setw(4)<<'|'<<setw(4)<<x.second<<setw(4)<<'|'<<setw(4)<<x.first.price<<'|'<<right<<setw(9)<<x.first.price*x.second<<"   |"<<endl;
+        cout<<left<<setfill(' ')<<setw(25)<<x.first.name<<setw(4)<<'|'<<setw(4)<<x.second<<setw(4)<<'|'<<setw(4)<<x.first.price<<'|'<<right<<setw(7)<<setprecision(3)<<x.first.price*x.second<<"  |"<<endl;
         cout<<setfill('-')<<setw(50)<<"-\n";
     }
     cout<<"\n";
@@ -118,4 +147,89 @@ ostream& operator<<(ostream& out,const guest& a)
 {
     a.print(out);
     return out;
+}
+member::member()
+{
+    rank=0;
+    memberPoint=0;
+}
+void member::menu()
+{
+
+}
+void member::input()
+{
+    guest::input();
+    cout<<"Input id: ";cin>>id;
+    string link=url+"member/"+to_string(id);
+    makeDir(link);
+    ofstream info(link+"info.dat");
+    if(info.is_open())
+    {
+        auto[Date,Name,Tel]=person::get();
+        info<<id<<endl;
+        info<<Name<<endl;
+        info<<Date<<endl;
+        info<<Tel<<endl;
+        info<<rank<<endl;
+        info<<memberPoint<<endl;
+        info<<use<<endl;
+        info.close();
+    }
+
+}
+void member::output()
+{
+    guest::output();
+    cout<<"Discount: "<<setfill(' ')<<setw(39)<<discount(rank,DoB.birthdayMonth())<<"  |";
+}
+void member::export()
+{
+    
+}
+double member::payment()
+{
+    if(DoB.birthdayMonth())
+        {
+            if(!use)
+                {
+                    return guest::payment()*(1-discount(rank,true));
+                    use=true;
+                }
+        }
+    return guest::payment()*(1-discount(rank,false));
+}
+void member::print(ostream&) const
+{
+
+}
+void member::load(istream&)
+{
+
+}
+istream& operator>>(istream& in,guest& a)
+{
+    a.load(in);
+    return in;
+}
+ostream& operator<<(ostream& out,const guest& a)
+{
+    a.print(out);
+    return out;
+}
+bool member::buy(std::vector<item>,int)
+{
+
+}
+void member::viewHistory()
+{
+
+}
+vector<item> member::preOrder()
+{
+
+}
+vector<item> favoriteItem()
+{
+
 }

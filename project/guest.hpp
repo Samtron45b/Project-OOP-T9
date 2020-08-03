@@ -42,15 +42,19 @@ class guest: public person{
 
 class member: public guest{
     private:
-        int rank,memberPoint;
+        int id;
+        int rank;
+        float memberPoint;
+        bool use=0;
     public:
-        member(){}
+        member();
         virtual ~member(){}
         virtual void menu();
         virtual void input();
         virtual void output();
         virtual void export();
         virtual double payment();
+        void save();
         virtual void print(std::ostream&) const;
         virtual void load(std::istream&);
         friend std::istream& operator>>(std::istream& in,guest& a);

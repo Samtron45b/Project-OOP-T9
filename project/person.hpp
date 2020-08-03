@@ -7,8 +7,9 @@ class person
 {
     private:
         std::string name,tel;
-        date DoB;
         float age;
+    protected:
+        date DoB;
     public:
         person();
         virtual ~person();

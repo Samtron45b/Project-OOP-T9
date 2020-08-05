@@ -1,0 +1,235 @@
+#include "guest.hpp"
+#include <fstream>
+#include <iomanip>
+#include <cmath>
+#include "myLib.hpp"
+
+using namespace std;
+
+const string url="./project/data/";
+
+float point(float pay)
+{
+    return pay/10;
+}
+
+int ranked(float point)
+{
+    if(point <1500)
+    {
+        return 3;
+    }
+    if(point<5000)
+        return 2;
+    return 1;
+}
+float discount(int rank,bool birthday)
+{
+    float birth=0;
+    if(birthday)
+        birth+=0.05;
+    if(rank==1) return birth+0.2;
+    if(rank==2) return birth+0.15;
+    if(rank==3) return birth+0.1;
+}
+void guest::menu()
+{
+
+}
+
+void guest::input()
+{
+    person::input();
+}
+
+void guest::output()
+{
+    person::output(false);
+    for(auto x:cart)
+    {
+        cout<<left<<setfill(' ')<<setw(25)<<x.first.name<<setw(4)<<'|'<<setw(4)<<x.second<<setw(4)<<'|'<<setw(4)<<x.first.price<<'|'<<right<<setw(7)<<setprecision(3)<<x.first.price*x.second<<"  |"<<endl;
+        cout<<setfill('-')<<setw(50)<<"-\n";
+    }
+    cout<<"\n";
+    // ! Sẽ được viết ở main sau output cout<<"Total: "<<payment()<<endl;
+}
+
+void guest::export()
+{
+    date today;
+    string link = url+"/export/"+to_string(today.day)+'_'+to_string(today.month)+'_'+to_string(today.year)+'/';
+    int count;
+    fstream file1(link+"count.dat",ios::in);
+    if(file1.is_open())
+    {
+        file1>>count;
+        file1.close();
+    }
+    else
+    {
+        throw "File not found";
+    }
+    string fileName="#"+string(4-(int)(log10(count)),'0')+to_string(count);
+    ofstream file2(link+fileName+".exe");
+    if(file2.is_open())
+    {
+        file2<<setfill('*')<<setw(29)<<fileName<<setw(23)<<"*\n";
+        auto [DoB1,name1,tel1]=person::get();
+        auto [hour,min,sec]=currentTime(true);
+        int age=DoB1.age(true);
+        file2<<"Name        : "<<name1<<endl;
+        file2<<"Telephone   : "<<tel1<<endl;
+        file2<<"Day of birth: "<<DoB1<<endl;
+        file2<<"Age         : "<<age<<endl;
+        file2<<setfill('*')<<setw(52)<<"*\n";
+        for(auto x:cart)
+        {
+        file2<<left<<setfill(' ')<<setw(25)<<x.first.name<<setw(4)<<'|'<<setw(4)<<x.second<<setw(4)<<'|'<<setw(4)<<x.first.price<<'|'<<right<<setw(11)<<x.first.price*x.second<<"   |"<<endl;
+        file2<<setfill('-')<<setw(52)<<"-\n";
+        }
+        file2<<"\n";
+        file2<<setfill('*')<<setw(52)<<"*\n\n";
+        file2<<"Total       : "<<setfill(' ')<<setw(38)<<setprecision(3)<<payment()<<endl;
+        file2.close();
+    }
+
+}
+
+double guest::payment()
+{
+    double money=0;
+    for(auto x: cart)
+    {
+        money+= x.first.price*x.second;
+    }
+    return money;
+}
+
+void guest::print(ostream& out) const
+{
+    person::print(out);
+    out<<';'<<cart.size();
+    for(auto x:cart)
+    {
+        out<<';'<<x.first.id<<';'<<x.second;
+    }
+}
+void guest::load(istream& in)
+{
+    person::load(in);
+    int num;
+    in>>num;
+    for(int i=0;i<num;++i)
+    {
+        item temp;
+        int tmp;
+        in.ignore(1);
+        in>>tmp;
+        temp.find(tmp);
+        if(temp.id==-1)
+        {
+            throw "Missing item "+tmp;
+        }
+        else
+        {
+            in.ignore(1);
+            in>>tmp;
+            cart[temp]=tmp;
+        }
+    }
+}
+istream& operator>>(istream& in,guest& a)
+{
+    a.load(in);
+    return in;
+}
+ostream& operator<<(ostream& out,const guest& a)
+{
+    a.print(out);
+    return out;
+}
+member::member()
+{
+    rank=0;
+    memberPoint=0;
+}
+void member::menu()
+{
+
+}
+void member::input()
+{
+    guest::input();
+    cout<<"Input id: ";cin>>id;
+    string link=url+"member/"+to_string(id);
+    makeDir(link);
+    ofstream info(link+"info.dat");
+    if(info.is_open())
+    {
+        auto[Date,Name,Tel]=person::get();
+        info<<id<<endl;
+        info<<Name<<endl;
+        info<<Date<<endl;
+        info<<Tel<<endl;
+        info<<rank<<endl;
+        info<<memberPoint<<endl;
+        info<<use<<endl;
+        info.close();
+    }
+
+}
+void member::output()
+{
+    guest::output();
+    cout<<"Discount: "<<setfill(' ')<<setw(39)<<discount(rank,DoB.birthdayMonth())<<"  |";
+}
+void member::export()
+{
+    
+}
+double member::payment()
+{
+    if(DoB.birthdayMonth())
+        {
+            if(!use)
+                {
+                    return guest::payment()*(1-discount(rank,true));
+                    use=true;
+                }
+        }
+    return guest::payment()*(1-discount(rank,false));
+}
+void member::print(ostream&) const
+{
+
+}
+void member::load(istream&)
+{
+
+}
+istream& operator>>(istream& in,guest& a)
+{
+    a.load(in);
+    return in;
+}
+ostream& operator<<(ostream& out,const guest& a)
+{
+    a.print(out);
+    return out;
+}
+bool member::buy(std::vector<item>,int)
+{
+
+}
+void member::viewHistory()
+{
+
+}
+vector<item> member::preOrder()
+{
+
+}
+vector<item> favoriteItem()
+{
+
+}

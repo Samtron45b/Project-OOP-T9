@@ -1,0 +1,36 @@
+Project:
+    Make dir & delete dir:
+        ☐ Make dir @high
+        ☐ Make file @low
+        ☐ Delete dir @high
+        ☐ Delete file @high
+    Person:
+        ✔ person(); @done (7/29/2020, 12:53:23 PM)
+        ✔ ~person(); @done (7/29/2020, 12:53:24 PM)
+        ✔ input(); @done (7/29/2020, 12:53:24 PM)
+        ✔ output(); @done (7/29/2020, 12:53:25 PM)
+        ✔ print(std::ostream&) const; @done (7/29/2020, 12:53:26 PM)
+        ✔ load(std::istream&); @done (7/29/2020, 12:53:26 PM)
+        ✔ operator>>(istream& in,person& a); @done (7/29/2020, 12:53:27 PM)
+        ✔ operator<<(std::ostream& out,const person a); @done (7/29/2020, 12:53:27 PM)
+        ✔ void menu()=0; @done (7/29/2020, 12:53:28 PM)
+    Guest:
+        ☐ menu @low
+        ✔ input @today @done (8/1/2020, 10:33:04 PM)
+        ✔ output @today @done (8/1/2020, 9:21:31 PM)
+        ✔ export @low @done (8/1/2020, 9:21:28 PM)
+        ✔ payment @low @done (8/1/2020, 9:21:49 PM)
+        ✔ print @today @done (8/3/2020, 9:18:44 AM)
+        ✔ load @low @done (8/1/2020, 10:32:26 PM)
+        ✔ operator>> @today @done (8/1/2020, 10:32:27 PM)
+        ✔ operator<< @today @done (8/1/2020, 10:32:27 PM)
+    Member:
+        ☐  menu @low
+        ☐ input @low
+        ☐ output @low
+        ☐ export @low
+        ☐ payment @low
+        ☐ print @low
+        ☐ load @low
+        ☐ operator>> @low
+        ☐ operator<< @low

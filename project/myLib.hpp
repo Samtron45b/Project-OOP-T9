@@ -4,7 +4,7 @@
 #include <tuple>
 #include <string>
 
-std::tuple<int,int,int> currentTime(bool per12);
+std::tuple<int, int, int> currentTime(bool per12);
 int makeFolder(const std::string& s);
 bool makeDir(const std::string& dir);
 void clearConsole();

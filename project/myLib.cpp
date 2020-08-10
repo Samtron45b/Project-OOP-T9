@@ -1,11 +1,13 @@
 #include "myLib.hpp"
 #include <ctime>
 #include <iostream>
+#include <chrono>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <stdexcept>
 #include <algorithm>
 #include <limits>
+#include <fstream>
 
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
     #include <direct.h>
@@ -94,4 +96,82 @@ void clearConsole()
         }
         putp(tigetstr( "clear" ));
     #endif // defined
+}
+
+// ! Random
+
+unsigned myRandom::now()
+{
+    return std::chrono::system_clock::now().time_since_epoch().count();
+}
+
+myRandom::myRandom(): engine(now()) {};
+
+int myRandom::next()
+{
+    return engine();
+}
+
+int myRandom::next(int x)
+{
+    std::uniform_int_distribution<int> dist(0, x);
+    return dist(engine);
+}
+
+int myRandom::next(int a, int b)
+{
+    std::uniform_int_distribution<int> dist(a, b);
+    return dist(engine);
+}
+
+double myRandom::nextDouble()
+{
+    std::uniform_real_distribution<double> dist(0.0, 1.0);
+    return dist(engine);
+}
+
+// ! ID List
+
+bool checkID(int ID)
+{
+    ifstream list("data/member/ID_List.txt");
+    int *arr,n;
+    if(list.is_open())
+    {
+        list>>n;
+        arr=new int[n+1];
+        for(int i=0;i<n;++i)
+        {
+            list>>arr[i];
+        }
+        list.close();
+    }
+    bool res=true;
+    for(int i=0;i<n;++i)
+    {
+        if(arr[i]==ID)
+            res=false;
+    }
+    if(res)
+    {
+        arr[n]=ID;
+        sort(arr,arr+n+1);
+        ++n;
+        saveIDlist(arr,n);
+    }
+    delete []arr;
+    return res;
+}
+void saveIDlist(int* list,int n)
+{
+    ofstream file("data/member/ID_List.txt");
+    if(file.is_open())
+    {
+        file<<n<<endl;
+        for(int i=0;i<n;++i)
+        {
+            file<<list[i]<<endl;
+        }
+        file.close();
+    }
 }

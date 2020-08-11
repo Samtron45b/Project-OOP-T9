@@ -1,14 +1,20 @@
-#include "person.hpp"
-#include "utility"
+#include "guest.cpp"
+#include "person.cpp"
+#include <algorithm>
+#include <utility>
+
+using namespace std;
 class staff :public person
 {
 private:
-    int id;
+    string id;
 public:
     staff();
     ~staff();
+    void input();
+    void output();
     void checkIn();
-    bool addNewMem();
+    void addNewMem();
     void showMem();
     void updateRecord();
     bool deleteRecord();

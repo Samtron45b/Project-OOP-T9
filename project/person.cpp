@@ -5,6 +5,9 @@ using namespace std;
 
 person::person()
 {
+    name="";
+    tel="";
+    DoB=date(1900,1,1);
     age=DoB.age(false);
 }
 person::~person()
@@ -27,14 +30,14 @@ void person::input()
     cout<<"Input telephone: ";cin>>tel;
     if(is_number(tel))
     {
-        break;;
+        break;
     }
     else
     {
         cout<<"Invalid input! Please input again!\n\n";
     }
     }
-    cout<<"Input day of birth: ";
+    cout<<"Input day of birth: \n";
     cin>>DoB;
 }
 void person::output(bool real_age=true)
@@ -78,4 +81,11 @@ ostream& operator<<(ostream& out,const person& a)
 tuple<date,string,string> person::get()
 {
     return make_tuple(DoB,name,tel);
+}
+void  person::set(date Date,string Name,string Tel)
+{
+    DoB=Date;
+    name=Name;
+    tel=Tel;
+    age=DoB.age(false);
 }

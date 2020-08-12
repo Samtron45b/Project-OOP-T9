@@ -4,6 +4,7 @@
 #include <tuple>
 #include <string>
 #include <random>
+#include <iostream>
 
 std::tuple<int,int,int> currentTime(bool per12);
 

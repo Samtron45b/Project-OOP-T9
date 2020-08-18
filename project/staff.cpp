@@ -39,7 +39,7 @@ void staff::checkIn()
     timeinfo = localtime(&raw);
 
     // open file
-    string path = "/data/staff/checkin/" + id + ".txt";
+    string path = "./data/staff/checkin/" + id + ".txt";
     ofstream outfile(path, ios::app);
 
     outfile << asctime(timeinfo);

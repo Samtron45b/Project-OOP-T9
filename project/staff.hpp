@@ -2,12 +2,15 @@
 #include "person.cpp"
 #include <algorithm>
 #include <utility>
-
+#include <string>
+#include <fstream>
+#include <ctime>
 using namespace std;
-class staff :public person
+class staff : public person
 {
 private:
     string id;
+
 public:
     staff();
     ~staff();
@@ -22,6 +25,4 @@ public:
     void menu();
     member updateMem();
     void save();
-
-
 };

@@ -19,10 +19,10 @@ public:
     void checkIn();
     void addNewMem();
     void showMem();
+    member updateMem();
     void updateRecord();
     bool deleteRecord();
     pair<item, int> searchRecord();
     void menu();
-    member updateMem();
     void save();
 };

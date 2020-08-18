@@ -96,5 +96,26 @@ void staff::addNewMem()
 
 void staff::showMem()
 {
-    // Show by ID,rank,member point
+    int id;
+    do
+    {
+        cout << "Enter Member ID:";
+        cin >> id;
+    } while (is_number(to_string(id)) == false);
+    if (checkID(id) == false)
+    {
+        cout << "ID not found!" << endl;
+        return;
+    }
+    else
+    {
+        ifstream info("./data/member/" + to_string(id) + "info.dat");
+        string temp;
+        while (!info.eof())
+        {
+            getline(info, temp);
+            cout << temp << endl;
+        }
+        info.close();
+    }
 }

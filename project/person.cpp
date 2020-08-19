@@ -1,6 +1,7 @@
 #include "person.hpp"
 #include <fstream>
 #include <iomanip>
+
 using namespace std;
 
 person::person()
@@ -18,8 +19,14 @@ person::~person()
 
 bool is_number(const string& s)
 {
-    return !s.empty() && find_if(s.begin(),
-        s.end(), [](unsigned char c) { return !std::isdigit(c); }) == s.end();
+    for(auto x:s)
+    {
+        if(x<'0'||x>'9')
+        {
+            return false;
+        }
+    }
+    return !s.empty();
 }
 
 void person::input()

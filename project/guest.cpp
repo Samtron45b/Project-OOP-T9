@@ -832,6 +832,23 @@ vector<item> member::preOrder()
     }
     return tmp;
 }
+void member::save(){
+    string link=url+"member/"+to_string(id);
+    makeDir(link);
+    ofstream info(link+"/info.dat");
+    if(info.is_open())
+    {
+        auto[Date,Name,Tel]=person::get();
+        info<<id<<endl;
+        info<<Name<<endl;
+        info<<Date<<endl;
+        info<<Tel<<endl;
+        info<<rank<<endl;
+        info<<memberPoint<<endl;
+        info<<use<<endl;
+        info.close();
+    }
+}
 vector<item> member::favoriteItem()
 {
     string link=url+"member/"+to_string(id)+"favorite.txt";

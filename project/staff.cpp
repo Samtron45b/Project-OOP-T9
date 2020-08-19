@@ -122,7 +122,7 @@ void staff::showMem()
     }
 }
 
-member staff::updateMem()
+void staff::updateMem()
 {
 
     int id;
@@ -155,8 +155,30 @@ member staff::updateMem()
             if (info.is_open())
             {
                 //Need a member save() function
-                        }
+                string name, tel;
+                date d;
+                cout << "Enter New Name: ";
+                getline(cin, name);
+                cout << "Enter New Telephone Number: ";
+                getline(cin, tel);
+                cout << "Date of Birth" << endl;
+                cin >> d;
+                temp->set(d, name, tel);
+                temp->save();
+                info.close();
+                cout << "Update Member Successfully!" << endl;
+            }
+            else
+            {
+                cout << "Cannot Open File!" << endl;
+            }
+            break;
         }
+        case 'N':
+        case 'n':
+        default:
+            cout << "Stop Updating Member!" << endl;
+            break;
         }
     }
 }

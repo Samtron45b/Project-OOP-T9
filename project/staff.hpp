@@ -20,7 +20,7 @@ public:
     void checkIn();
     void addNewMem();
     void showMem();
-    member updateMem();
+    void updateMem();
     void updateRecord();
     bool deleteRecord();
     pair<item, int> searchRecord();

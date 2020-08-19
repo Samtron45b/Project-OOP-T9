@@ -81,6 +81,7 @@ void staff::addNewMem()
             temp->input();
             // Missing File + Save Data;
             cout << "New Member Added!" << endl;
+            break;
         }
         case 'N':
         case 'n':
@@ -99,6 +100,7 @@ void staff::showMem()
     int id;
     do
     {
+        system("cls");
         cout << "Enter Member ID:";
         cin >> id;
     } while (is_number(to_string(id)) == false);
@@ -117,5 +119,44 @@ void staff::showMem()
             cout << temp << endl;
         }
         info.close();
+    }
+}
+
+member staff::updateMem()
+{
+
+    int id;
+    do
+    {
+        system("cls");
+        cout << "Enter Member ID:";
+        cin >> id;
+    } while (is_number(to_string(id)) == false);
+    if (checkID(id) == false)
+    {
+        cout << "ID not found!" << endl;
+    }
+    else
+    {
+        char cont;
+        do
+        {
+            cout << "Update This Member?(Y/N)" << endl;
+            cout << "Your Choice:";
+            cin >> cont;
+        } while (cont != 'Y' || cont != 'y' || cont != 'N' || cont != 'n');
+        switch (cont)
+        {
+        case 'Y':
+        case 'y':
+        {
+            member *temp = new member(id);
+            ofstream info("./data/member/" + to_string(id) + "/info.dat");
+            if (info.is_open())
+            {
+                //Need a member save() function
+                        }
+        }
+        }
     }
 }

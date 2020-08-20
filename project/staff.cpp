@@ -1,5 +1,5 @@
 #include "staff.hpp"
-
+#include "manager.hpp"
 bool is_number(const string &s)
 {
     return !s.empty() && find_if(s.begin(),
@@ -8,12 +8,14 @@ bool is_number(const string &s)
 
 void staff::input()
 {
+    ofstream id_list("./data/staff/ID_List.txt", ios::app);
     while (true)
     {
         cout << "Input ID: ";
         cin >> id;
-        if (is_number(id))
+        if (is_number(id) && checkStaffID(stoi(id)))
         {
+            id_list << id << endl;
             break;
         }
         else
@@ -21,13 +23,15 @@ void staff::input()
             cout << "Invalid input! Please input again!\n\n";
         }
     }
+    id_list.close();
+
     string path = "./data/staff/" + id + "/info.dat";
     makeDir(path);
     ofstream info(path);
     if (info.is_open())
     {
-        person::input();
-        auto [Date, Name, Tel] = person::get();
+        this->person::input();
+        auto [Date, Name, Tel] = this->person::get();
         info << id << endl;
         info << Name << endl;
         info << Date << endl;
@@ -93,6 +97,7 @@ void staff::addNewMem()
             temp->input();
             // Missing File + Save Data;
             cout << "New Member Added!" << endl;
+            delete temp;
             break;
         }
         case 'N':
@@ -256,4 +261,19 @@ void staff::menu()
             break;
         }
     } while (cont == 'Y' || cont == 'y');
+}
+
+void staff::save()
+{
+    string path = "./data/staff/" + id + "/info.dat";
+    ofstream info(path);
+    if (info.is_open())
+    {
+        auto [Date, Name, Tel] = person::get();
+        info << id << endl;
+        info << Name << endl;
+        info << Date << endl;
+        info << Tel << endl;
+        info.close();
+    }
 }

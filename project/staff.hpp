@@ -21,9 +21,9 @@ public:
     void addNewMem();
     void showMem();
     void updateMem();
-    void updateRecord();
-    bool deleteRecord();
-    pair<item, int> searchRecord();
+    void updateRecord();            // Need Item
+    bool deleteRecord();            //Need Item
+    pair<item, int> searchRecord(); // Need Item
     void menu();
     void save();
 };

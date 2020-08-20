@@ -21,7 +21,19 @@ void staff::input()
             cout << "Invalid input! Please input again!\n\n";
         }
     }
-    person::input();
+    string path = "./data/staff/" + id + "/info.dat";
+    makeDir(path);
+    ofstream info(path);
+    if (info.is_open())
+    {
+        person::input();
+        auto [Date, Name, Tel] = person::get();
+        info << id << endl;
+        info << Name << endl;
+        info << Date << endl;
+        info << Tel << endl;
+        info.close();
+    }
 }
 
 void staff::output()
@@ -181,4 +193,67 @@ void staff::updateMem()
             break;
         }
     }
+}
+
+void staff::menu()
+{
+    int choice = -1;
+    bool checkInput = true;
+    char cont;
+
+    do
+    {
+        clearConsole();
+        cout << "(0) Go Home" << endl;
+        cout << "(1) Check-in Section" << endl;
+        cout << "(2) Add New Member" << endl;
+        cout << "(3) Find Member by ID" << endl;
+        cout << "(4) Update Member Information" << endl;
+        cout << "(5) Update Record" << endl;
+        cout << "(6) Delete Record" << endl;
+        cout << "(6) Search Record" << endl;
+
+        cout << "Input Your Choice: " << endl;
+        do
+        {
+            checkInput = cinIg(cin, choice, true);
+        } while (choice < 0 || choice > 7 || checkInput == false);
+        switch (choice)
+        {
+        case 0:
+            cout << "See You Next Time!" << endl;
+            clearConsole();
+            break;
+        case 1: //Checkin
+            checkIn();
+            break;
+        case 2: //Add New Mem
+            addNewMem();
+            break;
+        case 3: //Find Mem by ID
+            showMem();
+            break;
+        case 4: //Update Mem
+            updateMem();
+            break;
+        case 5: //Update Record
+            break;
+        case 6: //delete Record
+            break;
+        }
+        do
+        {
+            cout << "Continue?";
+            cin >> cont;
+        } while (cont != 'Y' || cont != 'y' || cont != 'N' || cont != 'n');
+
+        switch (cont)
+        {
+        case 'N':
+        case 'n':
+            cout << "See You Next Time" << endl;
+            clearConsole();
+            break;
+        }
+    } while (cont == 'Y' || cont == 'y');
 }

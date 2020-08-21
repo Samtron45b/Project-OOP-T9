@@ -6,6 +6,23 @@ bool is_number(const string &s)
                                  s.end(), [](unsigned char c) { return !std::isdigit(c); }) == s.end();
 }
 
+staff::staff(int id)
+{
+    ifstream info("./data/staff/" + to_string(id) + "/info.dat");
+    if (info.is_open())
+    {
+        string Name, Tel;
+        date Date;
+        info >> this->id;
+        info >> Name;
+        info >> Date;
+        info.ignore(1);
+        info >> Tel;
+        person::set(Date, Name, Tel);
+        info.close();
+    }
+}
+
 void staff::input()
 {
     ofstream id_list("./data/staff/ID_List.txt", ios::app);
@@ -20,14 +37,14 @@ void staff::input()
         }
         else
         {
-            cout << "Invalid input! Please input again!\n\n";
+            cout << "Invalid Input! Please Try Again!\n\n";
         }
     }
     id_list.close();
 
-    string path = "./data/staff/" + id + "/info.dat";
+    string path = "./data/staff/" + id;
     makeDir(path);
-    ofstream info(path);
+    ofstream info(path + "info.dat");
     if (info.is_open())
     {
         this->person::input();
@@ -55,7 +72,7 @@ void staff::checkIn()
     timeinfo = localtime(&raw);
 
     // open file
-    string path = "./data/staff/checkin/" + id + ".txt";
+    string path = "./data/staff/" + id + "/checkin.txt";
     ofstream outfile(path, ios::app);
 
     outfile << asctime(timeinfo);
@@ -121,7 +138,7 @@ void staff::showMem()
         cout << "Enter Member ID:";
         cin >> id;
     } while (is_number(to_string(id)) == false);
-    if (checkID(id) == false)
+    if (checkID(id) == true)
     {
         cout << "ID not found!" << endl;
         return;

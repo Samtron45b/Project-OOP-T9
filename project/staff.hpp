@@ -14,6 +14,7 @@ private:
 
 public:
     staff();
+    staff(int id);
     ~staff();
     void input();
     void output();

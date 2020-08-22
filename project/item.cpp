@@ -326,7 +326,7 @@ ostream& operator<<(std::ostream& out,item value)
     out<<value.id<<","<<value.name<<","<<value.storage<<","<<value.price<<endl;
     return out;
 }
-istream& operator>>(std::istream& in,item value)
+istream& operator>>(std::istream& in,item& value)
 {
     in>>value.id;
     in.ignore(1);

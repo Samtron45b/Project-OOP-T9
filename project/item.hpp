@@ -25,7 +25,7 @@ struct item{
     bool operator>(item rhs) const;
     bool operator>=(item rhs) const;
     friend std::ostream& operator<<(std::ostream& out,item value);
-    friend std::istream& operator>>(std::istream& in,item value);
+    friend std::istream& operator>>(std::istream& in,item& value);
 };
 
 #endif // !ITEM_H_INCLUDED

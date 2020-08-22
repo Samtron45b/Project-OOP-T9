@@ -176,6 +176,7 @@ float date::age(bool roundUp=true)
     {
         res =temp.year-year+(12-month+temp.month)/12.0;
     }
+    return res;
 }
 bool date::birthdayMonth()
 {

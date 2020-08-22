@@ -26,6 +26,7 @@ bool item::get(int ID)
     item a;
     fstream myFile(url+"item/info.dat",ios::in);
     set<item> list;
+    bool found=false;
     if(myFile.is_open())
     {
         item temp;
@@ -38,7 +39,7 @@ bool item::get(int ID)
     else
     {
         cout<<"Item info not found!\n";
-        false;
+        return found;
     }
 
     for(auto x: list)
@@ -46,13 +47,18 @@ bool item::get(int ID)
         if(x.id==ID)
         {
             a=x;
+            found=true;
             break;
         }
     }
+    if(found)
+    {
     name=a.name;
     id=a.id;
     storage=a.storage;
     price=a.price;
+    }
+    return found;
 }
 
 void item::update()
@@ -107,7 +113,7 @@ void item::update()
         cout<<"Input your new price: ";
         if(cinIg(cin,tmp))
         {
-            storage=tmp;
+            price=tmp;
         }
         else
         {
@@ -331,4 +337,5 @@ istream& operator>>(std::istream& in,item value)
     in.ignore(1);
     in>>value.price;
     in.ignore(1);
+    return in;
 }

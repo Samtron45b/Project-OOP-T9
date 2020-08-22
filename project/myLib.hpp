@@ -5,6 +5,7 @@
 #include <string>
 #include <random>
 #include <iostream>
+#include <vector>
 
 std::tuple<int,int,int> currentTime(bool per12);
 
@@ -13,7 +14,7 @@ bool makeDir(const std::string& dir);
 void clearConsole();
 
 bool checkID(int ID,int file,bool save=true);
-void saveIDlist(int* list,int n,std::string link);
+void saveIDlist(std::vector<int>list,std::string link);
 class myRandom
 {
     private:

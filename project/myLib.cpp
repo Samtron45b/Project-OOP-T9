@@ -132,7 +132,7 @@ double myRandom::nextDouble()
 
 // ! ID List
 
-bool checkID(int ID,int file,bool save=true)
+bool checkID(int ID,int file,bool save)
 {
     string link="data/";
     switch(file)
@@ -150,42 +150,42 @@ bool checkID(int ID,int file,bool save=true)
     }
     ifstream list(link);
 
-    int *arr,n;
+    vector<int>arr;
     if(list.is_open())
     {
-        list>>n;
-        arr=new int[n+1];
-        for(int i=0;i<n;++i)
+        int temp;
+        while(list>>temp)
         {
-            list>>arr[i];
+            arr.push_back(temp);
         }
         list.close();
     }
+        else
+    {
+        return false;
+    }
     bool res=true;
-    for(int i=0;i<n;++i)
+    for(int i=0;i<arr.size();++i)
     {
         if(arr[i]==ID)
             res=false;
     }
     if(res&&save)
     {
-        arr[n]=ID;
-        sort(arr,arr+n+1);
-        ++n;
-        saveIDlist(arr,n,link);
+        arr.push_back(ID);
+        sort(arr.begin(),arr.end());
+        saveIDlist(arr,link);
     }
-    delete []arr;
     return res;
 }
-void saveIDlist(int* list,int n,string link)
+void saveIDlist(vector<int>list,string link)
 {
     ofstream file(link);
     if(file.is_open())
     {
-        file<<n<<endl;
-        for(int i=0;i<n;++i)
+        for(auto x:list)
         {
-            file<<list[i]<<endl;
+            file<<x<<endl;
         }
         file.close();
     }

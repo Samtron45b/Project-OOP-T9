@@ -6,7 +6,7 @@
 #include <map>
 
 struct item{
-    string name;
+    std::string name;
     int id, storage;
     double price;
 
@@ -23,16 +23,16 @@ struct item{
         }
         return true;
     }
-    friend ostream& operator<<(ostream& out,item value)
+    friend std::ostream& operator<<(std::ostream& out,item value)
     {
         out<<value.id<<";"<<value.name<<";"<<value.storage<<";"<<value.price<<endl;
         return out;
     }
-    friend istream& operator>>(istream& in,item value)
+    friend std::istream& operator>>(std::istream& in,item value)
     {
         in>>value.id;
         in.ignore(1);
-        string temp;
+        std::string temp;
         getline(in,temp,';');
         value.name=temp;
         in>>value.storage;

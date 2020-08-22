@@ -460,7 +460,7 @@ void member::input()
     {
         myRandom temp;
         id=temp.next(10000,20000);
-        if(checkID(id))
+        if(checkID(id,1))
         {
             break;
         }

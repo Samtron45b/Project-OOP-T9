@@ -12,8 +12,8 @@ int makeFolder(const std::string& s);
 bool makeDir(const std::string& dir);
 void clearConsole();
 
-bool checkID(int ID);
-void saveIDlist(int* list,int n);
+bool checkID(int ID,int file,bool save=true);
+void saveIDlist(int* list,int n,std::string link);
 class myRandom
 {
     private:

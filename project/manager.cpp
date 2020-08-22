@@ -157,7 +157,7 @@ void manager::deleteStaff()
             cout << "Do you want to delete this staff?(Y/N): ";
             cin >> cont;
             if (cont == 'Y' || cont == 'y')
-                rmdir("./data/staff/" + to_string(id));
+                rmdir(("./data/staff/" + to_string(id)).c_str());
             else
                 break;
         }
@@ -179,4 +179,4 @@ void manager::deleteStaff()
             cout << "See You Next Time!" << endl;
             break;
         }
-    } while (cont == "Y" || cont == "y");
+    } while (cont == 'Y' || cont == 'y');

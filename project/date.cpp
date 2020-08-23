@@ -147,7 +147,6 @@ istream& operator>>(std::istream& in, date& a)
         in.ignore(1);
         in>>temp;
         a.year=temp;
-        in>>a.year>>a.month>>a.day;
 
     }
     else

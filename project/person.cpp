@@ -68,7 +68,7 @@ void person::output(bool real_age)
     cout<<"Telephone:   "<<tel<<endl;
     cout<<"Day of birth: "<<DoB<<endl;
     if(real_age)
-        cout<<"Age: "<<setprecision(2)<<age<<endl;
+        cout<<"Age: "<<fixed<<setprecision(3)<<age<<endl;
     else
     {
         cout<<"Age: "<<ceil(age)<<endl;

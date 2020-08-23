@@ -3,6 +3,7 @@
 #include <string>
 #include "date.hpp"
 #include <tuple>
+
 class person
 {
     private:
@@ -17,16 +18,8 @@ class person
         virtual void output(bool real_age=true);
         virtual void print(std::ostream&) const;
         virtual void load(std::istream&);
-        template <typename T>
-        void update(T value,int type)
-        {
-            if(type==1)
-            {
-                DoB=value;
-            }
-            else if (type==2) name=value;
-            else tel=value;
-        }
+        void update(date value);
+        void update(std::string, int);
         friend std::istream& operator>>(std::istream& in,person& a);
         friend std::ostream& operator<<(std::ostream& out,const person& a);
         virtual void menu()=0;

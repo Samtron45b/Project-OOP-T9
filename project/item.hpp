@@ -1,7 +1,7 @@
 #ifndef ITEM_H_INCLUDED
+#define ITEM_H_INCLUDED
 #include <string>
 #include "date.hpp"
-
 struct item{
     std::string name;
     int id, storage;
@@ -29,5 +29,5 @@ struct item{
     friend std::istream& operator>>(std::istream& in,item& value);
 };
 
-#endif // !ITEM_H_INCLUDED
+#endif // !item_H_INCLUDED
 

@@ -36,7 +36,7 @@ bool item::get(int ID)
     }
     else
     {
-        cout<<"Item info not found!\n";
+        cout<<"item info not found!\n";
         return found;
     }
 
@@ -142,7 +142,7 @@ void item::update()
         }
         else
         {
-            cout << "Item info not found!\n";
+            cout << "item info not found!\n";
             return;
         }
 
@@ -161,7 +161,7 @@ void item::update()
         }
         else
         {
-            cout << "Item info not found!\n";
+            cout << "item info not found!\n";
             return;
         }
     }
@@ -236,7 +236,7 @@ item item::find(int ID)
     }
     else
     {
-        cout<<"Item info not found!\n";
+        cout<<"item info not found!\n";
         return a;
     }
 
@@ -284,7 +284,7 @@ void item::input()
     }
     else
     {
-        cout<<"Item info not found!\n";
+        cout<<"item info not found!\n";
         return;
     }
 
@@ -303,7 +303,7 @@ void item::input()
     }
     else
     {
-        cout<<"Item info not found!\n";
+        cout<<"item info not found!\n";
         return;
     }
 }

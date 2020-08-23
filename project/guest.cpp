@@ -112,7 +112,7 @@ void guest::menu()
                         cout<<"This is your bill!\n\n";
                         output();
                         cout<<"Total       : "<<setfill(' ')<<setw(35)<<setprecision(3)<<money<<"  |"<<endl;
-                        export();
+                        exportFile();
                         getchar();
                         clearConsole();
 
@@ -153,7 +153,7 @@ void guest::output()
     // ! Sẽ được viết ở main sau output cout<<"Total: "<<money<<endl;
 }
 
-void guest::export()
+void guest::exportFile()
 {
     date today;
     string link=url+"export/"+to_string(today.year);
@@ -287,7 +287,6 @@ void member::menu()
     int choice=-1;
     vector<item> tmp;
     bool checkInput=true;
-    int choice=-1;
     string content="";
     {
     auto[Date,Name,Tel]=person::get();
@@ -361,13 +360,13 @@ void member::menu()
                     cout<<"This is your bill!\n\n";
                     output();
                     cout<<"Total       : "<<setfill(' ')<<setw(35)<<setprecision(3)<<payment()<<"  |"<<endl;
-                    export();
+                    exportFile();
 
                     cout<<"\n\n";
                 }
             cout<<"Goodbye!\n";
             cout<<"Have a nice day!\n";
-            export();
+            exportFile();
             getchar();
             clearConsole();
             break;
@@ -389,21 +388,21 @@ void member::menu()
                         date tmp;
                         cout<<"Input your date:\n";
                         cin>>tmp;
-                        update(tmp,choice);
+                        person::update(tmp);
                     }
                     break;
                 case 2:
                     {
                         string tmp;
                         cout<<"Input name: ";cin>>tmp;
-                        update(tmp,choice);
+                        person::update(tmp,choice-1);
                     }
                     break;
                 case 3:
                     {
                         int tmp;
                         cout<<"Input telephone: ";cin>>tmp;
-                        update('0'+to_string(tmp),choice);
+                        person::update('0'+to_string(tmp),choice-1);
                     }
                     break;
                 default:
@@ -492,7 +491,7 @@ void member::output()
     guest::output();
     cout<<"Discount: "<<setfill(' ')<<setw(39)<<discount(rank,DoB.birthdayMonth())<<"  |";
 }
-void member::export()
+void member::exportFile()
 {
     date today;
     string link=url+"export/"+to_string(today.year);
@@ -543,7 +542,7 @@ void member::export()
         file2.close();
     }
 }
-double member::payment(bool change=false)
+double member::payment(bool change)
 {
     double res=0;
     if(DoB.birthdayMonth())
@@ -569,17 +568,17 @@ void member::load(istream& in)
     person::load(in);
     in>>money;
 }
-istream& operator>>(istream& in,guest& a)
+istream& operator>>(istream& in,member& a)
 {
     a.load(in);
     return in;
 }
-ostream& operator<<(ostream& out,const guest& a)
+ostream& operator<<(ostream& out,const member& a)
 {
     a.print(out);
     return out;
 }
-void member::updateFile(int type,item value,int choice=1)
+void member::updateFile(int type,item value,int choice)
 {
     //! Choice 0 to delete, choice=1 to add
     string link= url+"member/"+to_string(id)+'/';
@@ -780,7 +779,7 @@ vector<item> member::shoppingCookie(int type)
 {
     if(type==1)
     {
-        return favoriteItem();
+        return favoriteitem();
     }
     else if(type==2)
     {
@@ -849,7 +848,7 @@ void member::save(){
         info.close();
     }
 }
-vector<item> member::favoriteItem()
+vector<item> member::favoriteitem()
 {
     string link=url+"member/"+to_string(id)+"favorite.txt";
     vector<item>tmp;

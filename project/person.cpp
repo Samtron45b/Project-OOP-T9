@@ -28,7 +28,21 @@ bool is_number(const string& s)
     }
     return !s.empty();
 }
-
+void person::update(date value)
+{
+    DoB = value;
+}
+void person::update(string src, int type)
+{
+    if (type == 1)
+    {
+        name = src;
+    }
+    else
+    {
+        tel = src;
+    }
+}
 void person::input()
 {
     cout<<"Input name: ";cin>>name;
@@ -47,7 +61,7 @@ void person::input()
     cout<<"Input day of birth: \n";
     cin>>DoB;
 }
-void person::output(bool real_age=true)
+void person::output(bool real_age)
 {
     cout<<"Name : "<<name<<endl;
     cout<<"Telephone:   "<<tel<<endl;

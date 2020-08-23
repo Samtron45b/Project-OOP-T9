@@ -5,10 +5,10 @@
 
 struct date
 {
-    int year, month, day;
+    int year,month,day;
 
     date();
-    date(int y, int m, int d);
+    date(int y,int m,int d);
 
     int maxDay();
 
@@ -24,10 +24,10 @@ struct date
     bool birthdayMonth();// ! Check if birthday
 
     friend std::istream& operator>>(std::istream& in, date& a);
-    friend std::ostream& operator<<(std::ostream& out, const date a);
-    float age(bool);
+    friend std::ostream& operator<<(std::ostream& out,const date& a);
+    float age(bool roundUp=true);
 
-    void right();
+    void right();// ? Optional
 };
 
 

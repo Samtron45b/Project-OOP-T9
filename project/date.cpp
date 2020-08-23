@@ -147,7 +147,6 @@ istream& operator>>(std::istream& in, date& a)
         in.ignore(1);
         in>>temp;
         a.year=temp;
-        in>>a.year>>a.month>>a.day;
 
     }
     else
@@ -164,7 +163,7 @@ ostream& operator<<(std::ostream& out,const date& a)
     return out;
 }
 
-float date::age(bool roundUp=true)
+float date::age(bool roundUp)
 {
     date temp;
     float res;
@@ -176,6 +175,7 @@ float date::age(bool roundUp=true)
     {
         res =temp.year-year+(12-month+temp.month)/12.0;
     }
+    return res;
 }
 bool date::birthdayMonth()
 {

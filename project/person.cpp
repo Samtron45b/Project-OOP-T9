@@ -45,7 +45,7 @@ void person::update(string src, int type)
 }
 void person::input()
 {
-    cout<<"Input name: ";cin>>name;
+    cout<<"Input name: ";getline(cin,name);
     while(true)
     {
     cout<<"Input telephone: ";cin>>tel;
@@ -60,6 +60,7 @@ void person::input()
     }
     cout<<"Input day of birth: \n";
     cin>>DoB;
+    age = DoB.age(false);
 }
 void person::output(bool real_age)
 {
@@ -67,7 +68,7 @@ void person::output(bool real_age)
     cout<<"Telephone:   "<<tel<<endl;
     cout<<"Day of birth: "<<DoB<<endl;
     if(real_age)
-        cout<<"Age: "<<age<<endl;
+        cout<<"Age: "<<setprecision(2)<<age<<endl;
     else
     {
         cout<<"Age: "<<ceil(age)<<endl;

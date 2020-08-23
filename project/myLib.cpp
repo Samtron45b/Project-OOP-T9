@@ -10,50 +10,50 @@
 #include <fstream>
 
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
-    #include <direct.h>
-    #include <windows.h>
+#include <direct.h>
+#include <windows.h>
 #elif defined(__APPLE__) || defined(__linux__) || defined(__unix__)
-    #include <unistd.h>
-    #include <term.h>
+#include <unistd.h>
+#include <term.h>
 #endif
 
 using namespace std;
 
-tuple<int,int,int> currentTime(bool per12)
+tuple<int, int, int> currentTime(bool per12)
 {
-    time_t t =time(0);
-    struct tm* now =localtime(&t);
-    int hour=now->tm_hour,min=now->tm_min,sec=now->tm_sec;
-    if(per12==true)
-        if(hour>12)
-        hour=hour%12;
-    return make_tuple(hour,min,sec);
+    time_t t = time(0);
+    struct tm* now = localtime(&t);
+    int hour = now->tm_hour, min = now->tm_min, sec = now->tm_sec;
+    if (per12 == true)
+        if (hour > 12)
+            hour = hour % 12;
+    return make_tuple(hour, min, sec);
 }
 
 int makeFolder(const std::string& s)
 {
-    #if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
-        return _mkdir(s.c_str());
-    #elif __APPLE__
-        #include <TargetConditionals.h>
-        #if TARGET_IPHONE_SIMULATOR
-            return 65;
-        #elif TARGET_OS_IPHONE
-            return 66;
-        #elif TARGET_OS_MAC
-            return mkdir(s.c_str(), S_IRUSR | S_IWUSR | S_IXUSR);
-        #else
-            #error "Unknown Apple platform"
-        #endif
-    #elif __linux__
-        return mkdir(s.c_str(), S_IRUSR | S_IWUSR | S_IXUSR);
-    #elif __unix__
-        return 31;
-    #elif defined(_POSIX_VERSION)
-        return 32;
-    #else
-    #   error "Unknown compiler"
-    #endif
+#if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
+    return _mkdir(s.c_str());
+#elif __APPLE__
+#include <TargetConditionals.h>
+#if TARGET_IPHONE_SIMULATOR
+    return 65;
+#elif TARGET_OS_IPHONE
+    return 66;
+#elif TARGET_OS_MAC
+    return mkdir(s.c_str(), S_IRUSR | S_IWUSR | S_IXUSR);
+#else
+#error "Unknown Apple platform"
+#endif
+#elif __linux__
+    return mkdir(s.c_str(), S_IRUSR | S_IWUSR | S_IXUSR);
+#elif __unix__
+    return 31;
+#elif defined(_POSIX_VERSION)
+    return 32;
+#else
+#   error "Unknown compiler"
+#endif
 
     return 0;
 }
@@ -73,29 +73,29 @@ bool makeDir(const std::string& dir)
 
 void clearConsole()
 {
-    #if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
-        COORD topLeft  = { 0, 0 };
-        HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
-        CONSOLE_SCREEN_BUFFER_INFO screen;
-        DWORD written;
+#if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
+    COORD topLeft = { 0, 0 };
+    HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
+    CONSOLE_SCREEN_BUFFER_INFO screen;
+    DWORD written;
 
-        GetConsoleScreenBufferInfo(console, &screen);
-        FillConsoleOutputCharacterA(
-            console, ' ', screen.dwSize.X * screen.dwSize.Y, topLeft, &written
-        );
-        FillConsoleOutputAttribute(
-            console, FOREGROUND_GREEN | FOREGROUND_RED | FOREGROUND_BLUE,
-            screen.dwSize.X * screen.dwSize.Y, topLeft, &written
-        );
-        SetConsoleCursorPosition(console, topLeft);
-    #elif defined(__APPLE__) || defined(__linux__) || defined(__unix__)
-        if (!cur_term) {
-            int result;
-            setupterm(NULL, STDOUT_FILENO, &result);
-            if (result <= 0) return;
-        }
-        putp(tigetstr( "clear" ));
-    #endif // defined
+    GetConsoleScreenBufferInfo(console, &screen);
+    FillConsoleOutputCharacterA(
+        console, ' ', screen.dwSize.X * screen.dwSize.Y, topLeft, &written
+    );
+    FillConsoleOutputAttribute(
+        console, FOREGROUND_GREEN | FOREGROUND_RED | FOREGROUND_BLUE,
+        screen.dwSize.X * screen.dwSize.Y, topLeft, &written
+    );
+    SetConsoleCursorPosition(console, topLeft);
+#elif defined(__APPLE__) || defined(__linux__) || defined(__unix__)
+    if (!cur_term) {
+        int result;
+        setupterm(NULL, STDOUT_FILENO, &result);
+        if (result <= 0) return;
+    }
+    putp(tigetstr("clear"));
+#endif // defined
 }
 
 // ! Random
@@ -105,7 +105,7 @@ unsigned myRandom::now()
     return std::chrono::system_clock::now().time_since_epoch().count();
 }
 
-myRandom::myRandom(): engine(now()) {};
+myRandom::myRandom() : engine(now()) {};
 
 int myRandom::next()
 {
@@ -132,60 +132,60 @@ double myRandom::nextDouble()
 
 // ! ID List
 
-bool checkID(int ID,int file,bool save)
+bool checkID(int ID, int file, bool save)
 {
-    string link="data/";
-    switch(file)
+    string link = "data/";
+    switch (file)
     {
         //! Member
-        case 1:
-            link+="member/ID_List.txt";
-            break;
+    case 1:
+        link += "member/ID_List.txt";
+        break;
         //! item
-        case 2:
-            link+="item/ID_List.txt";
-            break;
-        default:
-            break;
+    case 2:
+        link += "item/ID_List.txt";
+        break;
+    default:
+        break;
     }
     ifstream list(link);
 
     vector<int>arr;
-    if(list.is_open())
+    if (list.is_open())
     {
         int temp;
-        while(list>>temp)
+        while (list >> temp)
         {
             arr.push_back(temp);
         }
         list.close();
     }
-        else
+    else
     {
         return false;
     }
-    bool res=true;
-    for(int i=0;i<arr.size();++i)
+    bool res = true;
+    for (int i = 0; i < arr.size(); ++i)
     {
-        if(arr[i]==ID)
-            res=false;
+        if (arr[i] == ID)
+            res = false;
     }
-    if(res&&save)
+    if (res && save)
     {
         arr.push_back(ID);
-        sort(arr.begin(),arr.end());
-        saveIDlist(arr,link);
+        sort(arr.begin(), arr.end());
+        saveIDlist(arr, link);
     }
     return res;
 }
-void saveIDlist(vector<int>list,string link)
+void saveIDlist(vector<int>list, string link)
 {
     ofstream file(link);
-    if(file.is_open())
+    if (file.is_open())
     {
-        for(auto x:list)
+        for (auto x : list)
         {
-            file<<x<<endl;
+            file << x << endl;
         }
         file.close();
     }

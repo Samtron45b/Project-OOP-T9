@@ -32,6 +32,7 @@ float discount(int rank,bool birthday)
     if(rank==1) return birth+0.2;
     if(rank==2) return birth+0.15;
     if(rank==3) return birth+0.1;
+    return birth;
 }
 void guest::menu()
 {
@@ -455,6 +456,7 @@ void member::menu()
 void member::input()
 {
     guest::input();
+    rank = 3;
     while(true)
     {
         myRandom temp;

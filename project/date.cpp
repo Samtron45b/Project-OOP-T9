@@ -164,7 +164,7 @@ ostream& operator<<(std::ostream& out,const date& a)
     return out;
 }
 
-float date::age(bool roundUp=true)
+float date::age(bool roundUp)
 {
     date temp;
     float res;

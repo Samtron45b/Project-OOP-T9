@@ -25,14 +25,12 @@ staff::staff(int id)
 
 void staff::input()
 {
-    ofstream id_list("./data/staff/ID_List.txt", ios::app);
     while (true)
     {
         cout << "Input ID: ";
         cin >> id;
-        if (is_number(id) && checkStaffID(stoi(id)))
+        if (is_number(id) && checkStaffID(stoi(id), true))
         {
-            id_list << id << endl;
             break;
         }
         else
@@ -40,7 +38,6 @@ void staff::input()
             cout << "Invalid Input! Please Try Again!\n\n";
         }
     }
-    id_list.close();
 
     string path = "./data/staff/" + id;
     makeDir(path);
@@ -138,7 +135,7 @@ void staff::showMem()
         cout << "Enter Member ID:";
         cin >> id;
     } while (is_number(to_string(id)) == false);
-    if (checkID(id) == true)
+    if (checkID(id, 1, false) == true)
     {
         cout << "ID not found!" << endl;
         return;
@@ -166,7 +163,7 @@ void staff::updateMem()
         cout << "Enter Member ID:";
         cin >> id;
     } while (is_number(to_string(id)) == false);
-    if (checkID(id) == false)
+    if (checkID(id, 1, false) == false)
     {
         cout << "ID not found!" << endl;
     }
@@ -233,7 +230,7 @@ void staff::menu()
         cout << "(4) Update Member Information" << endl;
         cout << "(5) Update Record" << endl;
         cout << "(6) Delete Record" << endl;
-        cout << "(6) Search Record" << endl;
+        cout << "(7) Search Record" << endl;
 
         cout << "Input Your Choice: " << endl;
         do
@@ -259,8 +256,13 @@ void staff::menu()
             updateMem();
             break;
         case 5: //Update Record
+            updateRecord();
             break;
         case 6: //delete Record
+            deleteRecord();
+            break;
+        case 7:
+            searchRecord();
             break;
         }
         do
@@ -293,4 +295,117 @@ void staff::save()
         info << Tel << endl;
         info.close();
     }
+}
+
+void staff::updateRecord()
+{
+    int id;
+    char cont;
+    item *temp = new item;
+    do
+    {
+        system("cls");
+        cout << "Enter Item's ID:";
+        cin >> id;
+    } while (is_number(to_string(id)) == false);
+    if (temp->get(id))
+    {
+        cout << "Item Found!" << endl;
+        do
+        {
+            cout << "Update This Record? (Y/N):";
+            cin >> cont;
+        } while (cont != 'Y' || cont != 'y' || cont != 'N' || cont != 'n');
+        switch (cont)
+        {
+        case 'Y':
+        case 'y':
+            temp->update();
+            cout << "Item's Updated!" << endl;
+            break;
+        case 'N':
+        case 'n':
+        default:
+            break;
+        }
+    }
+    else
+    {
+        cout << "No Item's Found!" << endl;
+    }
+}
+
+bool staff::deleteRecord()
+{
+    int id;
+    char cont;
+    item *temp = new item;
+    do
+    {
+        do
+        {
+            system("cls");
+            cout << "Enter Item's ID:";
+            cin >> id;
+        } while (is_number(to_string(id)) == false);
+        if (temp->get(id))
+        {
+            cout << "Item Found!" << endl;
+            do
+            {
+                cout << "Delete This Record? (Y/N):";
+                cin >> cont;
+            } while (cont != 'Y' || cont != 'y' || cont != 'N' || cont != 'n');
+            switch (cont)
+            {
+            case 'Y':
+            case 'y':
+                rmdir(("./data/item/" + to_string(id)).c_str());
+                // Need an ID Update Function;
+                cout << "Item's Deleted!" << endl;
+                break;
+            case 'N':
+            case 'n':
+            default:
+                break;
+            }
+        }
+        else
+        {
+            cout << "No Item's Found!" << endl;
+        }
+
+        cout << "Continute?(Y/N):";
+        cin >> cont;
+
+    } while (cont == 'Y' || cont == 'y');
+}
+
+pair<item, int> staff::searchRecord()
+{
+    int id;
+    char cont;
+    pair<item, int> temp;
+    do
+    {
+        do
+        {
+            system("cls");
+            cout << "Enter Item's ID:";
+            cin >> id;
+        } while (is_number(to_string(id)) == false);
+        if (temp.first.get(id))
+        {
+            cout << "Item's Found!" << endl;
+            temp.second = id;
+            temp.first.output();
+        }
+        else
+            cout << "No Item's Found!" << endl;
+
+        cout << "Continue?(Y/N):";
+        cin >> cont;
+    } while (cont == 'Y' || cont == 'y');
+
+    return temp;
 }

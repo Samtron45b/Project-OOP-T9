@@ -12,8 +12,9 @@ public:
     void deleteStaff();
     vector<double> monthlySales; // ???
     void menu();
-    void save();
+    void save(); // DO NOT KNOW WHAT TO CODE HERE
 };
 
-bool checkStaffID(int id);
+bool checkStaffID(int id, bool save);
 void saveStaffIDlist(int *list, int n);
+// NEED A ID DELETE FUNCTION

@@ -1,6 +1,6 @@
 #include "manager.hpp"
 
-bool checkStaffID(int ID)
+bool checkStaffID(int ID, bool save)
 {
     ifstream list("./data/staff/ID_List.txt");
     int *arr, n;
@@ -20,7 +20,7 @@ bool checkStaffID(int ID)
         if (arr[i] == ID)
             res = false;
     }
-    if (res)
+    if (res && save)
     {
         arr[n] = ID;
         sort(arr, arr + n + 1);
@@ -89,7 +89,7 @@ void manager::updateStaff()
         cout << "Enter Staff ID:";
         cin >> id;
     } while (is_number(to_string(id)) == false);
-    if (checkStaffID(id) == true)
+    if (checkStaffID(id, false) == true)
     {
         cout << "ID not found!" << endl;
     }
@@ -152,12 +152,15 @@ void manager::deleteStaff()
             cout << "Enter Staff ID to delete: ";
             cin >> id;
         } while (is_number(to_string(id)) == false);
-        if (checkStaffID(id) == false)
+        if (checkStaffID(id, false) == false)
         {
             cout << "Do you want to delete this staff?(Y/N): ";
             cin >> cont;
             if (cont == 'Y' || cont == 'y')
+            {
                 rmdir(("./data/staff/" + to_string(id)).c_str());
+                // Need an ID Update Function
+            }
             else
                 break;
         }
@@ -180,3 +183,60 @@ void manager::deleteStaff()
             break;
         }
     } while (cont == 'Y' || cont == 'y');
+}
+
+void manager::menu()
+{
+    int choice = -1;
+    bool checkInput = true;
+    char cont;
+
+    do
+    {
+        clearConsole();
+        cout << "(0) Go Home" << endl;
+        cout << "(1) Add New Staff" << endl;
+        cout << "(2) Update Staff" << endl;
+        cout << "(3) Delete Staff" << endl;
+        cout << "(4) Show Monthly Sales" << endl;
+
+        cout << "Input Your Choice: " << endl;
+        do
+        {
+            checkInput = cinIg(cin, choice, true);
+        } while (choice < 0 || choice > 4 || checkInput == false);
+        switch (choice)
+        {
+        case 0:
+            cout << "See You Next Time!" << endl;
+            clearConsole();
+            break;
+        case 1: //Add new Staff
+            addNewStaff();
+            break;
+        case 2: //Update Staff
+            updateStaff();
+            break;
+        case 3: //Delete Staff
+            deleteStaff();
+            break;
+        case 4: //Show Monthly Sales
+            //  monthlySales();
+            break;
+        }
+        do
+        {
+            cout << "Continue?";
+            cin >> cont;
+        } while (cont != 'Y' || cont != 'y' || cont != 'N' || cont != 'n');
+
+        switch (cont)
+        {
+        case 'N':
+        case 'n':
+            cout << "See You Next Time" << endl;
+            clearConsole();
+            break;
+        }
+    } while (cont == 'Y' || cont == 'y');
+}

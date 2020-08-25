@@ -44,6 +44,30 @@ void saveStaffIDlist(int *list, int n)
     }
 }
 
+void deleteStaffID(int id)
+{
+    ifstream list("./data/staff/ID_List.txt");
+    int *arr, n;
+    vector<int> temp;
+    if (list.is_open())
+    {
+        list >> n;
+        arr = new int[n + 1];
+        for (int i = 0; i < n; ++i)
+        {
+            list >> arr[i];
+            if (arr[i] != id)
+                temp.push_back(arr[i]);
+        }
+        list.close();
+        delete[] arr;
+        --n;
+        arr = new int[n];
+        std::copy(temp.begin(), temp.end(), arr);
+        saveStaffIDlist(arr, n);
+    }
+}
+
 void manager::addNewStaff()
 {
     char choice, cont;
@@ -160,6 +184,7 @@ void manager::deleteStaff()
             {
                 rmdir(("./data/staff/" + to_string(id)).c_str());
                 // Need an ID Update Function
+                deleteStaffID(id);
             }
             else
                 break;

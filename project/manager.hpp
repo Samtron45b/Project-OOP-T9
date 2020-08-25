@@ -17,4 +17,5 @@ public:
 
 bool checkStaffID(int id, bool save);
 void saveStaffIDlist(int *list, int n);
+void deleteStaffID(int id);
 // NEED A ID DELETE FUNCTION

@@ -1,6 +1,7 @@
 #include "staff.hpp"
 #include "manager.hpp"
-bool is_number(const string &s)
+
+bool is_Number(const string &s)
 {
     return !s.empty() && find_if(s.begin(),
                                  s.end(), [](unsigned char c) { return !std::isdigit(c); }) == s.end();
@@ -29,7 +30,7 @@ void staff::input()
     {
         cout << "Input ID: ";
         cin >> id;
-        if (is_number(id) && checkStaffID(stoi(id), true))
+        if (is_Number(id) && checkStaffID(stoi(id), true))
         {
             break;
         }
@@ -96,12 +97,10 @@ void staff::addNewMem()
     char choice, cont;
     do
     {
-        do
-        {
-            system("cls");
-            cout << "Add New Member?(Y/ N)";
-            cin >> choice;
-        } while (choice != 'Y' || choice != 'y' || choice != 'N' || choice != 'n');
+		system("cls");
+		cout << "Add New Member?(Y/ N)";
+		cin >> choice;
+		cin.ignore(1);
         switch (choice)
         {
         case 'Y':
@@ -134,7 +133,7 @@ void staff::showMem()
         system("cls");
         cout << "Enter Member ID:";
         cin >> id;
-    } while (is_number(to_string(id)) == false);
+    } while (is_Number(to_string(id)) == false);
     if (checkID(id, 1, false) == true)
     {
         cout << "ID not found!" << endl;
@@ -162,7 +161,7 @@ void staff::updateMem()
         system("cls");
         cout << "Enter Member ID:";
         cin >> id;
-    } while (is_number(to_string(id)) == false);
+    } while (is_Number(to_string(id)) == false);
     if (checkID(id, 1, false) == false)
     {
         cout << "ID not found!" << endl;
@@ -232,7 +231,7 @@ void staff::menu()
         cout << "(6) Delete Record" << endl;
         cout << "(7) Search Record" << endl;
 
-        cout << "Input Your Choice: " << endl;
+        cout << "Input Your Choice: ";
         do
         {
             checkInput = cinIg(cin, choice, true);
@@ -241,7 +240,6 @@ void staff::menu()
         {
         case 0:
             cout << "See You Next Time!" << endl;
-            clearConsole();
             break;
         case 1: //Checkin
             checkIn();
@@ -265,11 +263,10 @@ void staff::menu()
             searchRecord();
             break;
         }
-        do
-        {
-            cout << "Continue?";
-            cin >> cont;
-        } while (cont != 'Y' || cont != 'y' || cont != 'N' || cont != 'n');
+       
+		cout << "Continue?";
+		cin >> cont;
+		cin.ignore(1);
 
         switch (cont)
         {
@@ -307,7 +304,7 @@ void staff::updateRecord()
         system("cls");
         cout << "Enter Item's ID:";
         cin >> id;
-    } while (is_number(to_string(id)) == false);
+    } while (is_Number(to_string(id)) == false);
     if (temp->get(id))
     {
         cout << "Item Found!" << endl;
@@ -337,6 +334,7 @@ void staff::updateRecord()
 
 bool staff::deleteRecord()
 {
+	bool res = true;
     int id;
     char cont;
     item *temp = new item;
@@ -347,7 +345,7 @@ bool staff::deleteRecord()
             system("cls");
             cout << "Enter Item's ID:";
             cin >> id;
-        } while (is_number(to_string(id)) == false);
+        } while (is_Number(to_string(id)) == false);
         if (temp->get(id))
         {
             cout << "Item Found!" << endl;
@@ -360,25 +358,29 @@ bool staff::deleteRecord()
             {
             case 'Y':
             case 'y':
-                rmdir(("./data/item/" + to_string(id)).c_str());
+                _rmdir(("./data/item/" + to_string(id)).c_str());
                 // Need an ID Update Function;
                 cout << "Item's Deleted!" << endl;
+				res = true;
                 break;
             case 'N':
             case 'n':
             default:
+				res = false;
                 break;
             }
         }
         else
         {
             cout << "No Item's Found!" << endl;
+			res = false;
         }
 
         cout << "Continute?(Y/N):";
         cin >> cont;
 
     } while (cont == 'Y' || cont == 'y');
+	return res;
 }
 
 pair<item, int> staff::searchRecord()
@@ -393,7 +395,7 @@ pair<item, int> staff::searchRecord()
             system("cls");
             cout << "Enter Item's ID:";
             cin >> id;
-        } while (is_number(to_string(id)) == false);
+        } while (is_Number(to_string(id)) == false);
         if (temp.first.get(id))
         {
             cout << "Item's Found!" << endl;
@@ -408,4 +410,9 @@ pair<item, int> staff::searchRecord()
     } while (cont == 'Y' || cont == 'y');
 
     return temp;
+}
+
+void staff::get(int ID)
+{
+
 }

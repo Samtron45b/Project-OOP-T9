@@ -1,6 +1,9 @@
-#include "guest.cpp"
+#ifndef  _STAFF_HPP_
+#define _STAFF_HPP_
+
+#include "myLib.hpp"
 #include "guest.hpp"
-#include "person.cpp"
+#include "person.hpp"
 #include "item.hpp"
 #include <algorithm>
 #include <utility>
@@ -15,9 +18,9 @@ private:
     string id;
 
 public:
-    staff();
+	staff() {};
     staff(int id);
-    ~staff();
+	~staff() {};
     void input();
     void output();
     void checkIn();
@@ -31,3 +34,7 @@ public:
     void save();
     void get(int ID); // Not Override yet!
 };
+bool is_Number(const string& s);
+
+
+#endif // ! _STAFF_HPP_

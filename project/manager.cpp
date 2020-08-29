@@ -1,9 +1,10 @@
 #include "manager.hpp"
 
+
 bool checkStaffID(int ID, bool save)
 {
     ifstream list("./data/staff/ID_List.txt");
-    int *arr, n;
+	int* arr = NULL , n;
     if (list.is_open())
     {
         list >> n;
@@ -112,7 +113,7 @@ void manager::updateStaff()
         system("cls");
         cout << "Enter Staff ID:";
         cin >> id;
-    } while (is_number(to_string(id)) == false);
+    } while (is_Number(to_string(id)) == false);
     if (checkStaffID(id, false) == true)
     {
         cout << "ID not found!" << endl;
@@ -175,14 +176,14 @@ void manager::deleteStaff()
         {
             cout << "Enter Staff ID to delete: ";
             cin >> id;
-        } while (is_number(to_string(id)) == false);
+        } while (is_Number(to_string(id)) == false);
         if (checkStaffID(id, false) == false)
         {
             cout << "Do you want to delete this staff?(Y/N): ";
             cin >> cont;
             if (cont == 'Y' || cont == 'y')
             {
-                rmdir(("./data/staff/" + to_string(id)).c_str());
+                _rmdir(("./data/staff/" + to_string(id)).c_str());
                 // Need an ID Update Function
                 deleteStaffID(id);
             }

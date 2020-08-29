@@ -1,3 +1,6 @@
+#ifndef _MANAGER_HPP_
+#define _MANAGER_HPP_
+
 #include "staff.hpp"
 #include <vector>
 #include <direct.h>
@@ -19,3 +22,6 @@ bool checkStaffID(int id, bool save);
 void saveStaffIDlist(int *list, int n);
 void deleteStaffID(int id);
 // NEED A ID DELETE FUNCTION
+
+
+#endif // !_MANAGER_HPP_

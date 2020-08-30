@@ -144,7 +144,7 @@ void guest::input()
 {
     person::input();
 }
-void guest::output()
+void guest::output(bool real_age)
 {
     person::output(false);
     for (auto x : cart)
@@ -490,8 +490,9 @@ void member::input()
     ofstream fav(link + "/favorite.txt");
     fav.close();
 }
-void member::output()
+void member::output(bool real_age = true)
 {
+    cout<<"ID: "<<id<<endl;
     guest::output();
     cout << "Discount: " << setfill(' ') << setw(39) << discount(rank, DoB.birthdayMonth()) << "  |";
 }

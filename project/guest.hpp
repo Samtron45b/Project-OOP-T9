@@ -15,7 +15,7 @@ public:
     virtual ~guest() {}
     virtual void menu();
     virtual void input();
-    virtual void output();//! Use for display cart,etc
+    virtual void output(bool real_age = true);//! Use for display cart,etc
     virtual void exportFile();
     virtual void print(std::ostream&) const;
     virtual void load(std::istream&);
@@ -38,7 +38,7 @@ public:
     virtual ~member() {}
     virtual void menu();
     virtual void input();
-    virtual void output();//! Use for display cart,etc
+    virtual void output(bool real_age = true);//! Use for display cart,etc
     void exportFile();
     double payment(bool change = false);
     void save();//? I dunno

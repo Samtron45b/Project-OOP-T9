@@ -4,6 +4,7 @@
 #include "staff.hpp"
 #include <vector>
 #include <direct.h>
+#include <filesystem>
 class manager : public person
 {
 private:
@@ -15,13 +16,13 @@ public:
     void deleteStaff();
     vector<double> monthlySales; // ???
     void menu();
-    void save(); // DO NOT KNOW WHAT TO CODE HERE
+    void save() {}
+    void get(int ID) {} // DO NOT KNOW WHAT TO CODE HERE
 };
 
 bool checkStaffID(int id, bool save);
 void saveStaffIDlist(int *list, int n);
 void deleteStaffID(int id);
 // NEED A ID DELETE FUNCTION
-
 
 #endif // !_MANAGER_HPP_

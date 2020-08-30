@@ -30,7 +30,8 @@ void staff::input()
     {
         cout << "Input ID: ";
         cin >> id;
-        if (is_Number(id) && checkStaffID(stoi(id), true))
+        cin.ignore(1);
+        if (checkStaffID(stoi(id), true) == true)
         {
             break;
         }
@@ -42,7 +43,7 @@ void staff::input()
 
     string path = "./data/staff/" + id;
     makeDir(path);
-    ofstream info(path + "info.dat");
+    ofstream info(path + "/info.dat");
     if (info.is_open())
     {
         this->person::input();
@@ -97,10 +98,10 @@ void staff::addNewMem()
     char choice, cont;
     do
     {
-		system("cls");
-		cout << "Add New Member?(Y/ N)";
-		cin >> choice;
-		cin.ignore(1);
+        system("cls");
+        cout << "Add New Member?(Y/ N)";
+        cin >> choice;
+        cin.ignore(1);
         switch (choice)
         {
         case 'Y':
@@ -128,12 +129,9 @@ void staff::addNewMem()
 void staff::showMem()
 {
     int id;
-    do
-    {
-        system("cls");
-        cout << "Enter Member ID:";
-        cin >> id;
-    } while (is_Number(to_string(id)) == false);
+    system("cls");
+    cout << "Enter Member ID:";
+    cin >> id;
     if (checkID(id, 1, false) == true)
     {
         cout << "ID not found!" << endl;
@@ -141,14 +139,10 @@ void staff::showMem()
     }
     else
     {
-        ifstream info("./data/member/" + to_string(id) + "info.dat");
-        string temp;
-        while (!info.eof())
-        {
-            getline(info, temp);
-            cout << temp << endl;
-        }
-        info.close();
+        cout << "Member Found!" << endl;
+        person *obj = new member;
+        obj->get(id);
+        obj->output();
     }
 }
 
@@ -162,19 +156,17 @@ void staff::updateMem()
         cout << "Enter Member ID:";
         cin >> id;
     } while (is_Number(to_string(id)) == false);
-    if (checkID(id, 1, false) == false)
+    if (checkID(id, 1, false) == true)
     {
         cout << "ID not found!" << endl;
     }
     else
     {
         char cont;
-        do
-        {
-            cout << "Update This Member?(Y/N)" << endl;
-            cout << "Your Choice:";
-            cin >> cont;
-        } while (cont != 'Y' || cont != 'y' || cont != 'N' || cont != 'n');
+        cout << "Update This Member?(Y/N)" << endl;
+        cout << "Your Choice:";
+        cin >> cont;
+        cin.ignore(1);
         switch (cont)
         {
         case 'Y':
@@ -263,10 +255,10 @@ void staff::menu()
             searchRecord();
             break;
         }
-       
-		cout << "Continue?";
-		cin >> cont;
-		cin.ignore(1);
+
+        cout << "Continue?";
+        cin >> cont;
+        cin.ignore(1);
 
         switch (cont)
         {
@@ -334,7 +326,7 @@ void staff::updateRecord()
 
 bool staff::deleteRecord()
 {
-	bool res = true;
+    bool res = true;
     int id;
     char cont;
     item *temp = new item;
@@ -361,26 +353,26 @@ bool staff::deleteRecord()
                 _rmdir(("./data/item/" + to_string(id)).c_str());
                 // Need an ID Update Function;
                 cout << "Item's Deleted!" << endl;
-				res = true;
+                res = true;
                 break;
             case 'N':
             case 'n':
             default:
-				res = false;
+                res = false;
                 break;
             }
         }
         else
         {
             cout << "No Item's Found!" << endl;
-			res = false;
+            res = false;
         }
 
         cout << "Continute?(Y/N):";
         cin >> cont;
 
     } while (cont == 'Y' || cont == 'y');
-	return res;
+    return res;
 }
 
 pair<item, int> staff::searchRecord()
@@ -414,5 +406,4 @@ pair<item, int> staff::searchRecord()
 
 void staff::get(int ID)
 {
-
 }

@@ -1,10 +1,9 @@
 #include "manager.hpp"
 
-
 bool checkStaffID(int ID, bool save)
 {
     ifstream list("./data/staff/ID_List.txt");
-	int* arr = NULL , n;
+    int *arr = NULL, n;
     if (list.is_open())
     {
         list >> n;
@@ -74,12 +73,10 @@ void manager::addNewStaff()
     char choice, cont;
     do
     {
-        do
-        {
-            system("cls");
-            cout << "Add New Staff?(Y/ N)";
-            cin >> choice;
-        } while (choice != 'Y' || choice != 'y' || choice != 'N' || choice != 'n');
+        system("cls");
+        cout << "Add New Staff?(Y/ N)";
+        cin >> choice;
+        cin.ignore(1);
         switch (choice)
         {
         case 'Y':
@@ -183,7 +180,7 @@ void manager::deleteStaff()
             cin >> cont;
             if (cont == 'Y' || cont == 'y')
             {
-                _rmdir(("./data/staff/" + to_string(id)).c_str());
+                filesystem::remove_all("./data/staff/" + to_string(id));
                 // Need an ID Update Function
                 deleteStaffID(id);
             }
@@ -250,16 +247,18 @@ void manager::menu()
             //  monthlySales();
             break;
         }
-        do
-        {
-            cout << "Continue?";
-            cin >> cont;
-        } while (cont != 'Y' || cont != 'y' || cont != 'N' || cont != 'n');
 
+        cout << "Continue?";
+        cin >> cont;
+        cin.ignore(1);
         switch (cont)
         {
+        case 'Y':
+        case 'y':
+            break;
         case 'N':
         case 'n':
+        default:
             cout << "See You Next Time" << endl;
             clearConsole();
             break;

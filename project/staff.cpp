@@ -110,7 +110,9 @@ void staff::addNewMem()
             member *temp = new member;
             temp->input();
             // Missing File + Save Data;
+            clearConsole();
             cout << "New Member Added!" << endl;
+            temp->output();
             delete temp;
             break;
         }
@@ -140,7 +142,7 @@ void staff::showMem()
     else
     {
         cout << "Member Found!" << endl;
-        person *obj = new member;
+        member *obj = new member;
         obj->get(id);
         obj->output();
     }
@@ -219,15 +221,16 @@ void staff::menu()
         cout << "(2) Add New Member" << endl;
         cout << "(3) Find Member by ID" << endl;
         cout << "(4) Update Member Information" << endl;
-        cout << "(5) Update Record" << endl;
-        cout << "(6) Delete Record" << endl;
-        cout << "(7) Search Record" << endl;
+        cout << "(5) Input New Record" << endl;
+        cout << "(6) Update Record" << endl;
+        cout << "(7) Delete Record" << endl;
+        cout << "(8) Search Record" << endl;
 
         cout << "Input Your Choice: ";
         do
         {
             checkInput = cinIg(cin, choice, true);
-        } while (choice < 0 || choice > 7 || checkInput == false);
+        } while (choice < 0 || choice > 8 || checkInput == false);
         switch (choice)
         {
         case 0:
@@ -245,13 +248,16 @@ void staff::menu()
         case 4: //Update Mem
             updateMem();
             break;
-        case 5: //Update Record
+        case 5: //Input Record
+            inputItem();
+            break;
+        case 6: //Update Record
             updateRecord();
             break;
-        case 6: //delete Record
+        case 7: //delete Record
             deleteRecord();
             break;
-        case 7:
+        case 8:
             searchRecord();
             break;
         }
@@ -286,6 +292,35 @@ void staff::save()
     }
 }
 
+void staff::inputItem()
+{
+    char cont;
+    do
+    {
+        clearConsole();
+        cout << "Input New Item?(Y/N): ";
+        cin >> cont;
+        cin.ignore(1);
+
+        switch (cont)
+        {
+        case 'Y':
+        case 'y':
+        {
+            item *obj = new item;
+            obj->input();
+            delete obj;
+            cout << "\nNew Record Added!" << endl;
+            break;
+        }
+        case 'N':
+        case 'n':
+            cout << "\nNo New Record Added!" << endl;
+            break;
+        }
+    } while (cont == 'Y' || cont == 'y');
+}
+
 void staff::updateRecord()
 {
     int id;
@@ -300,21 +335,21 @@ void staff::updateRecord()
     if (temp->get(id))
     {
         cout << "Item Found!" << endl;
-        do
-        {
-            cout << "Update This Record? (Y/N):";
-            cin >> cont;
-        } while (cont != 'Y' || cont != 'y' || cont != 'N' || cont != 'n');
+        temp->output();
+        cout << "Update This Record? (Y/N):";
+        cin >> cont;
+        cin.ignore(1);
         switch (cont)
         {
         case 'Y':
         case 'y':
             temp->update();
-            cout << "Item's Updated!" << endl;
+            cout << "\nItem's Updated!" << endl;
             break;
         case 'N':
         case 'n':
         default:
+            cout << "\nNo Record Updated!" << endl;
             break;
         }
     }
@@ -341,16 +376,15 @@ bool staff::deleteRecord()
         if (temp->get(id))
         {
             cout << "Item Found!" << endl;
-            do
-            {
-                cout << "Delete This Record? (Y/N):";
-                cin >> cont;
-            } while (cont != 'Y' || cont != 'y' || cont != 'N' || cont != 'n');
+            temp->output();
+
+            cout << "\nDelete This Record? (Y/N):";
+            cin >> cont;
+            cin.ignore();
             switch (cont)
             {
             case 'Y':
             case 'y':
-                _rmdir(("./data/item/" + to_string(id)).c_str());
                 // Need an ID Update Function;
                 cout << "Item's Deleted!" << endl;
                 res = true;

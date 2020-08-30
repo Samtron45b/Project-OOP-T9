@@ -1,4 +1,4 @@
-#ifndef  _STAFF_HPP_
+#ifndef _STAFF_HPP_
 #define _STAFF_HPP_
 
 #include "myLib.hpp"
@@ -18,15 +18,16 @@ private:
     string id;
 
 public:
-	staff() {};
+    staff(){};
     staff(int id);
-	~staff() {};
+    ~staff(){};
     void input();
     void output();
     void checkIn();
     void addNewMem();
     void showMem();
     void updateMem();
+    void inputItem();
     void updateRecord();            // OK
     bool deleteRecord();            //OK
     pair<item, int> searchRecord(); // OK
@@ -34,7 +35,6 @@ public:
     void save();
     void get(int ID); // Not Override yet!
 };
-bool is_Number(const string& s);
-
+bool is_Number(const string &s);
 
 #endif // ! _STAFF_HPP_

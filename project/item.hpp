@@ -14,6 +14,7 @@ struct item{
     void output();
     void input();
     void update();
+    bool deleteByID(int ID);
     item operator=(const item& rhs);
     bool operator==(item rhs);
     bool operator<(item rhs);

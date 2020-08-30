@@ -214,7 +214,59 @@ void item::update()
             }
     }
 }
-
+bool item::deleteByID(int ID)
+{
+    bool res=checkID(ID, 2, false);
+    if (!res) return res;
+   
+    fstream myFile;
+    myFile.open(url + "item/info.dat", ios::in);
+    vector<item> list;
+    if (myFile.is_open())
+    {
+        item temp;
+        while (myFile >> temp)
+        {
+            list.push_back(temp);
+        }
+        myFile.close();
+       }
+    else
+    {
+        cout << "item info not found!\n";
+        return false;
+    }
+    int pos=-1;
+    for (int i = 0; i < list.size(); ++i)
+    {
+        if (list[i].id == ID)
+        {
+            pos = i;
+            break;
+        }
+    }
+    list.erase(list.begin() + pos);
+    myFile.open(url + "item/info.dat", ios::out);
+    if (myFile.is_open())
+    {
+        for (auto x : list)
+        {
+            myFile << x << endl;
+        }
+        myFile.close();
+    }
+    else
+    {
+        cout << "item info not found!\n";
+        return false;
+    }
+    if (id == ID)
+    {
+        item tmp;
+        *this = tmp;
+    }
+    return res;
+}
 item item::find(int ID)
 {
     item a;

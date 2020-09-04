@@ -490,7 +490,7 @@ void member::input()
     ofstream fav(link + "/favorite.txt");
     fav.close();
 }
-void member::output(bool real_age = true)
+void member::output(bool real_age)
 {
     cout<<"ID: "<<id<<endl;
     guest::output();

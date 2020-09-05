@@ -10,8 +10,6 @@
 #include "account.hpp"
 using namespace std;
 
-//void menu();
-
 class Account
 {
 private:

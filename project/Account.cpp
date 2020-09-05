@@ -9,12 +9,6 @@
 #include "person.hpp"
 using namespace std;
 
-/*bool create(Manager)
-{}
-
-bool create(Staff)
-{}
-*/
 bool Account::create()
 {
 	string _username;
@@ -218,7 +212,6 @@ bool Account::checkLogin(string _username, int _type)
 
 Account Account::login()
 {
-	//	This is for individual account login, cannot use a full scale searching without the missing classes
 	string _username;
 	string _password;
 	int _ID;
@@ -306,12 +299,13 @@ void menu()
 		cout << "2. Remove account." << endl;
 		cout << "3. Password change." << endl;
 		cout << "4. Login." << endl;
+		cout << "==================" << endl;
 		cout << "Your choice: ";
 		cin >> option;
 		switch (option)
 		{
 		case 0:
-			cout << "Exit confirmation. Saving your data....\n You may now exit. Thank you for using our program.";
+			cout << "Exit confirmation. Saving your data...." << endl << "You may now exit. Thank you for using our program.";
 			break;
 		case 1:
 			flag = you.create();

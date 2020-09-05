@@ -492,7 +492,7 @@ void member::input()
 }
 void member::output(bool real_age)
 {
-    cout << "ID: " << id << endl;
+    cout<<"ID: "<<id<<endl;
     guest::output();
     cout << "Discount: " << setfill(' ') << setw(39) << discount(rank, DoB.birthdayMonth()) << "  |";
 }

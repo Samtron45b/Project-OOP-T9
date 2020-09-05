@@ -22,7 +22,7 @@ public:
     friend std::istream& operator>>(std::istream& in, guest& a);
     friend std::ostream& operator<<(std::ostream& out, const guest& a);
     virtual bool buy(std::vector<item>, int);
-    virtual void save() = 0;
+	virtual void save() {}
     virtual void get(int ID) {}
 };
 
@@ -38,7 +38,7 @@ public:
     virtual ~member() {}
     virtual void menu();
     virtual void input();
-    void output(bool real_age = true);//! Use for display cart,etc
+    virtual void output(bool real_age = true);//! Use for display cart,etc
     void exportFile();
     double payment(bool change = false);
     void save();//? I dunno

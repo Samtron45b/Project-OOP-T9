@@ -25,12 +25,17 @@ bool item::get(int ID)
     bool found = false;
     fstream myFile(url+"item/info.dat",ios::in);
     set<item> list;
+    int dum;
     if(myFile.is_open())
     {
         item temp;
-        while(myFile>>temp)
+        if (myFile >> dum)
         {
-            list.insert(temp);
+            myFile.ignore(1);
+            while (myFile >> temp)
+            {
+                list.insert(temp);
+            }
         }
         myFile.close();
     }
@@ -55,6 +60,30 @@ bool item::get(int ID)
 
 void item::update()
 {
+    string link = url;
+    fstream myFile;
+    myFile.open(link + "item/info.dat", ios::in);
+    set<item> list;
+    int dum;
+    if (myFile.is_open())
+    {
+        item temp;
+        if (myFile >> dum)
+        {
+            myFile.ignore(1);
+            while (myFile >> temp)
+            {
+                list.insert(temp);
+            }
+        }
+        myFile.close();
+    }
+    else
+    {
+        cout << "item info not found!\n";
+        return;
+    }
+    list.erase(*this);
     int choice=-1;
     bool change=true;
     while(true)
@@ -126,45 +155,24 @@ void item::update()
         return;
     }
     clearConsole();
-    string link=url;
-    fstream myFile;
+    
+    list.insert(*this);
+    myFile.open(link + "item/info.dat", ios::out);
+    if (myFile.is_open())
     {
-        myFile.open(link + "item/info.dat", ios::in);
-        set<item> list;
-        if (myFile.is_open())
+        myFile << list.size()<<endl;
+        for (auto x : list)
         {
-            item temp;
-            while (myFile >> temp)
-            {
-                list.insert(temp);
-            }
-            myFile.close();
+            myFile << x;
         }
-        else
-        {
-            cout << "item info not found!\n";
-            return;
-        }
-
-        cout << "Input your item's name: "; cinIg(cin, name);
-        cout << "Input your number: "; cinIg(cin, storage);
-        cout << "Input the price: "; cinIg(cin, price);
-        item dum(id, name, storage, price);
-        list.insert(dum);
-        myFile.open(link + "info.dat", ios::out);
-        if (myFile.is_open())
-        {
-            for (auto x : list)
-            {
-                myFile << x;
-            }
-        }
-        else
-        {
-            cout << "item info not found!\n";
-            return;
-        }
+        myFile.close();
     }
+    else
+    {
+        cout << "item info not found!\n";
+        return;
+    }
+
     link +="member/";
     myFile.open(link+"ID_List.txt");
     vector<int>arr;
@@ -225,9 +233,14 @@ bool item::deleteByID(int ID)
     if (myFile.is_open())
     {
         item temp;
-        while (myFile >> temp)
+        int dum;
+        if (myFile >> dum)
         {
-            list.push_back(temp);
+            myFile.ignore(1);
+            while (myFile >> temp)
+            {
+                list.push_back(temp);
+            }
         }
         myFile.close();
        }
@@ -280,9 +293,14 @@ item item::find(int ID)
     if(myFile.is_open())
     {
         item temp;
-        while(myFile>>temp)
+        int dum;
+        if (myFile >> dum)
         {
-            list.insert(temp);
+            myFile.ignore(1);
+            while (myFile >> temp)
+            {
+                list.insert(temp);
+            }
         }
         myFile.close();
     }
@@ -325,12 +343,18 @@ void item::input()
     string link=url+"item/";
     fstream myFile(link+"info.dat",ios::in);
     set<item> list;
+    int dum;
     if(myFile.is_open())
     {
         item temp;
-        while(myFile>>temp)
+        if (myFile >> dum)
         {
-            list.insert(temp);
+            myFile.ignore(1);
+            while (myFile >> temp)
+            {
+
+                list.insert(temp);
+            }
         }
         myFile.close();
     }
@@ -343,11 +367,11 @@ void item::input()
     cout<<"Input your item's name: "; cinIg(cin,name);
     cout<<"Input your number: "; cinIg(cin,storage);
     cout<<"Input the price: "; cinIg(cin,price);
-    item dum(id,name,storage,price);
-    list.insert(dum);
+    list.insert(*this);
     myFile.open(link+"info.dat",ios::out);
     if(myFile.is_open())
     {
+        myFile << list.size() << endl;
         for(auto x:list)
     {
         myFile<<x;
@@ -430,4 +454,31 @@ istream& operator>>(std::istream& in,item& value)
     in.ignore(1);
     in>>value.price;
     return in;
+}
+vector<item> item::getAll()
+{
+    string link = url + "item/";
+    fstream myFile(link + "info.dat", ios::in);
+    vector<item> list;
+    int dum;
+    if (myFile.is_open())
+    {
+        item temp;
+        if (myFile >> dum)
+        {
+            myFile.ignore(1);
+            while (myFile >> temp)
+            {
+
+                list.push_back(temp);
+            }
+        }
+        myFile.close();
+    }
+    else
+    {
+        cout << "item info not found!\n";
+        return list;
+    }
+    return list;
 }

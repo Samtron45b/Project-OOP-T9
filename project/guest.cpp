@@ -38,8 +38,12 @@ float discount(int rank, bool birthday)
 void guest::menu()
 {
     vector<item> pre;
+    item foo;
+    pre = foo.getAll();
     bool checkInput = true;
     int choice = -1;
+    int itemID,ord;
+    bool checkItem = true;
     while (true)
     {
         clearConsole();
@@ -92,8 +96,45 @@ void guest::menu()
             while (true)
             {
                 checkInput = true;
-                //? clq gì đây 
+                while (true)
+                {
+                    for (auto x : pre)
+                    {
+                        if (x.storage == 0)continue;
+                        x.output();
+                    }
+                    cout << "Input id of the item you want to buy: ";
+                    cin >> itemID;
+                    for (int i=0;i<pre.size();++i)
+                    {
+                        if (pre[i].id == itemID&&pre[i].storage)
+                        {
+                            checkItem = true;
+                            ord = i;
+                            break;
+                        }
+                    }
+                    if (!checkItem)
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        cout << "Input (0) To break\n";
+                        cout << "Input (1) to continue\n";
+                        checkInput = cinIg(cin, choice, true);
+                        if (!checkInput||!choice)
+                        {
+                            cont = 0;
+                            break;
+                        }
+                    }
+                }
 
+                if (!cont)break;
+                buy(pre, ord);
+                cout << "Enter(0):  To break\n";
+                cout << "Enter(1):  To continue\n";
                 checkInput = cinIg(cin, choice, true);
                 if (!checkInput)
                     cont = 0;
@@ -230,8 +271,28 @@ bool guest::buy(std::vector<item> x, int id)
             cin.ignore(10000, '\n');
             choice = 1;
         }
+        if (choice > x[id].storage)
+        {
+            choice = x[id].storage;
+        }
         cart[x[id]] += choice;
         money += x[id].price * choice;
+        x[id].storage -= choice;
+    }
+    ofstream myFile("data/item/info.dat", ios::out);
+    if (myFile.is_open())
+    {
+        myFile << x.size() << endl;
+        for (auto it : x)
+        {
+            myFile << it;
+        }
+        myFile.close();
+    }
+    else
+    {
+        cout << "item info not found!\n";
+        return;
     }
     return choice;
 
@@ -288,7 +349,7 @@ void member::menu()
 {
     //TODO export,shopping[view cart ,buy,add(fav,his,pre)],view[fav,his,pre],update info
     int choice = -1;
-    vector<item> tmp;
+    vector<item> temp;
     bool checkInput = true;
     string content = "";
     {
@@ -338,9 +399,9 @@ void member::menu()
                 clearConsole();
                 if ((choice >= 0 && choice <= 6) && checkInput)
                 {
-                    if (choice == 2)
-                        choice += 5;
-                    else if (choice > 2)
+                    if (choice == 3)
+                        choice += 3;
+                    else if (choice > 3)
                         --choice;
                     break;
                 }
@@ -415,22 +476,70 @@ void member::menu()
         break;
         case 2:
         {
-            output();
-            cout << "Total       : " << setfill(' ') << setw(38) << fixed << setprecision(3) << payment() << endl;
-            getchar();
-            clearConsole();
-            break;
+            item foo;
+            temp = foo.getAll();
+            bool checkInput = true;
+            int choice = -1;
+            int itemID, ord;
+            bool checkItem = true;
+            int cont = 1;
+            while (true)
+            {
+                checkInput = true;
+                while (true)
+                {
+                    for (auto x : temp)
+                    {
+                        if (x.storage == 0)continue;
+                        x.output();
+                    }
+                    cout << "Input id of the item you want to buy: ";
+                    cin >> itemID;
+                    for (int i = 0; i < temp.size(); ++i)
+                    {
+                        if (temp[i].id == itemID && temp[i].storage)
+                        {
+                            checkItem = true;
+                            ord = i;
+                            break;
+                        }
+                    }
+                    if (!checkItem)
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        cout << "Input (0) To break\n";
+                        cout << "Input (1) to continue\n";
+                        checkInput = cinIg(cin, choice, true);
+                        if (!checkInput || !choice)
+                        {
+                            cont = 0;
+                            break;
+                        }
+                    }
+                }
+
+                if (!cont)break;
+                buy(temp, ord);
+                cout << "Enter(0):  To break\n";
+                cout << "Enter(1):  To continue\n";
+                checkInput = cinIg(cin, choice, true);
+                if (!checkInput)
+                    cont = 0;
+                if (!cont) break;
+            }
         }
-        break;
         case 3:
         case 4:
         case 5:
-            tmp = shoppingCookie(choice - 2);
+            temp = shoppingCookie(choice - 2);
             cout << setfill(' ') << setw(30) << "List: \n";
-            if (tmp.size() != 0)
-                for (int i = 0; i < tmp.size(); ++i)
+            if (temp.size() != 0)
+                for (int i = 0; i < temp.size(); ++i)
                 {
-                    cout << string(4, ' ') << left << setfill(' ') << setw(5) << tmp[i].id << setw(4) << '|' << setw(25) << tmp[i].name << setw(4) << '|' << right << setw(10) << fixed << setprecision(3) << tmp[i].price << endl;
+                    cout << string(4, ' ') << left << setfill(' ') << setw(5) << temp[i].id << setw(4) << '|' << setw(25) << temp[i].name << setw(4) << '|' << right << setw(10) << fixed << setprecision(3) << temp[i].price << endl;
                 }
             else
             {
@@ -440,7 +549,14 @@ void member::menu()
             cout << "Press Enter to continue... ";
             getchar();
             clearConsole();
-            tmp.clear();
+            temp.clear();
+            break;
+        case 6:
+            output();
+            cout << "Total       : " << setfill(' ') << setw(38) << fixed << setprecision(3) << payment() << endl;
+            getchar();
+            clearConsole();
+            break;
             break;
         default:
             break;
@@ -492,7 +608,7 @@ void member::input()
 }
 void member::output(bool real_age)
 {
-    cout<<"ID: "<<id<<endl;
+    cout << "ID: " << id << endl;
     guest::output();
     cout << "Discount: " << setfill(' ') << setw(39) << discount(rank, DoB.birthdayMonth()) << "  |";
 }
@@ -855,6 +971,10 @@ vector<item> member::preOrder()
         clearConsole();
     }
     return tmp;
+}
+bool member::buy(std::vector<item> list, int id)
+{
+    return guest::buy(list, id);
 }
 void member::save() {
     string link = url + "member/" + to_string(id);

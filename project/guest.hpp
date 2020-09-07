@@ -22,7 +22,7 @@ public:
     friend std::istream& operator>>(std::istream& in, guest& a);
     friend std::ostream& operator<<(std::ostream& out, const guest& a);
     virtual bool buy(std::vector<item>, int);
-    virtual void save() = 0;
+    virtual void save() {}
     virtual void get(int ID) {}
 };
 
@@ -51,6 +51,7 @@ public:
     std::vector<item> preOrder();
     std::vector<item> favoriteitem();
     void get(int ID);
+    bool buy(std::vector<item>, int);
     //! Choice 0 to delete, choice=1 to add
     void updateFile(int type, item, int choice = 1);
 };

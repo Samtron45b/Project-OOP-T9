@@ -2,6 +2,7 @@
 #define ITEM_H_INCLUDED
 #include <string>
 #include "date.hpp"
+#include <vector>
 struct item{
     std::string name;
     int id, storage;
@@ -14,6 +15,8 @@ struct item{
     void output();
     void input();
     void update();
+    bool deleteByID(int ID);
+    std::vector<item> getAll();
     item operator=(const item& rhs);
     bool operator==(item rhs);
     bool operator<(item rhs);

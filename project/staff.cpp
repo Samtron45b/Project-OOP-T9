@@ -440,4 +440,34 @@ pair<item, int> staff::searchRecord()
 
 void staff::get(int ID)
 {
+    if (checkStaffID(ID, false) == false)
+        return;
+
+    ifstream file("./data/member/" + to_string(ID) + "/info.dat");
+    if (!file.is_open())
+        return;
+    date DOB;
+    string Name, Tel;
+    getline(file, id);
+    getline(file, Name);
+    file >> DoB;
+    file >> Tel;
+    file.close();
+    person::set(DoB, Name, Tel);
+}
+
+void staff::save()
+{
+    string link = "./data/member/" + id;
+    makeDir(link);
+    ofstream info(link + "/info.dat");
+    if (info.is_open())
+    {
+        auto [Date, Name, Tel] = person::get();
+        info << id << endl;
+        info << Name << endl;
+        info << Date << endl;
+        info << Tel << endl;
+        info.close();
+    }
 }

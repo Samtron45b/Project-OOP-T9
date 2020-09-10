@@ -292,7 +292,7 @@ bool guest::buy(std::vector<item> x, int id)
     else
     {
         cout << "item info not found!\n";
-        return;
+        return choice;
     }
     return choice;
 

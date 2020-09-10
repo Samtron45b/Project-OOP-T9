@@ -5,7 +5,7 @@
 #include <set>
 #include "myLib.hpp"
 #include <algorithm>
-
+#include <string>
 using namespace std;
 
 const string url = "./data/";

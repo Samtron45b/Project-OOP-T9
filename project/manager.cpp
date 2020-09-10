@@ -1,8 +1,12 @@
 #include "manager.hpp"
 
-bool checkStaffID(int ID, bool save)
+bool checkStaffID(int ID, bool save, int type)
 {
-    ifstream list("./data/staff/ID_List.txt");
+    ifstream list;
+    if (type == 1)
+        list.open("./data/staff/ID_List.txt");
+    else
+        list.open("./data/manager/ID_List.txt");
     int *arr = NULL, n;
     if (list.is_open())
     {
@@ -25,14 +29,18 @@ bool checkStaffID(int ID, bool save)
         arr[n] = ID;
         sort(arr, arr + n + 1);
         ++n;
-        saveStaffIDlist(arr, n);
+        saveStaffIDlist(arr, n, type);
     }
     delete[] arr;
     return res;
 }
-void saveStaffIDlist(int *list, int n)
+void saveStaffIDlist(int *list, int n, int type)
 {
-    ofstream file("./data/staff/ID_List.txt");
+    ofstream file;
+    if (type == 1)
+        file.open("./data/staff/ID_List.txt");
+    else
+        file.open("./data/manager/ID_List.txt");
     if (file.is_open())
     {
         file << n << endl;
@@ -44,9 +52,13 @@ void saveStaffIDlist(int *list, int n)
     }
 }
 
-void deleteStaffID(int id)
+void deleteStaffID(int id, int type)
 {
-    ifstream list("./data/staff/ID_List.txt");
+    ifstream list;
+    if (type == 1)
+        list.open("./data/staff/ID_List.txt");
+    else
+        list.open("./data/manager/ID_List.txt");
     int *arr, n;
     vector<int> temp;
     if (list.is_open())
@@ -64,7 +76,7 @@ void deleteStaffID(int id)
         --n;
         arr = new int[n];
         std::copy(temp.begin(), temp.end(), arr);
-        saveStaffIDlist(arr, n);
+        saveStaffIDlist(arr, n, type);
     }
 }
 
@@ -111,7 +123,7 @@ void manager::updateStaff()
         cout << "Enter Staff ID:";
         cin >> id;
     } while (is_Number(to_string(id)) == false);
-    if (checkStaffID(id, false) == true)
+    if (checkStaffID(id, false, 1) == true)
     {
         cout << "ID not found!" << endl;
     }
@@ -174,7 +186,7 @@ void manager::deleteStaff()
             cout << "Enter Staff ID to delete: ";
             cin >> id;
         } while (is_Number(to_string(id)) == false);
-        if (checkStaffID(id, false) == false)
+        if (checkStaffID(id, false, 1) == false)
         {
             cout << "Do you want to delete this staff?(Y/N): ";
             cin >> cont;
@@ -182,7 +194,7 @@ void manager::deleteStaff()
             {
                 filesystem::remove_all("./data/staff/" + to_string(id));
                 // Need an ID Update Function
-                deleteStaffID(id);
+                deleteStaffID(id, 1);
             }
             else
                 break;
@@ -264,4 +276,77 @@ void manager::menu()
             break;
         }
     } while (cont == 'Y' || cont == 'y');
+}
+
+void manager::save()
+{
+    string link = "./data/manager/" + to_string(id);
+    makeDir(link);
+    ofstream info(link + "/info.dat");
+    if (info.is_open())
+    {
+        auto [Date, Name, Tel] = person::get();
+        info << id << endl;
+        info << Name << endl;
+        info << Date << endl;
+        info << Tel << endl;
+        info.close();
+    }
+}
+
+void manager::get(int ID)
+{
+    if (checkStaffID(ID, false, 2) == true)
+        return;
+
+    ifstream file("./data/manager/" + to_string(ID) + "/info.dat");
+    if (!file.is_open())
+        return;
+    date DOB;
+    string Name, Tel;
+    file >> id;
+    file.ignore(1);
+    getline(file, Name);
+    file >> DoB;
+    file >> Tel;
+    file.close();
+    person::set(DoB, Name, Tel);
+}
+
+void manager::input()
+{
+    while (true)
+    {
+        cout << "Input ID: ";
+        cin >> id;
+        cin.ignore(1);
+        if (checkStaffID(id, true, 2) == true)
+        {
+            break;
+        }
+        else
+        {
+            cout << "Invalid Input! Please Try Again!\n\n";
+        }
+    }
+
+    string path = "./data/manager/" + to_string(id);
+    makeDir(path);
+    ofstream info(path + "/info.dat");
+    if (info.is_open())
+    {
+        this->person::input();
+        auto [Date, Name, Tel] = this->person::get();
+        info << id << endl;
+        info << Name << endl;
+        info << Date << endl;
+        info << Tel << endl;
+        info.close();
+    }
+}
+
+void manager::output()
+{
+    cout << "ID: " << id << endl;
+    person::output();
 }

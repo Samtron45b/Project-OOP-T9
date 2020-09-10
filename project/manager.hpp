@@ -22,9 +22,9 @@ public:
     void get(int ID); // DO NOT KNOW WHAT TO CODE HERE
 };
 
-bool checkStaffID(int id, bool save);
-void saveStaffIDlist(int *list, int n);
-void deleteStaffID(int id);
+bool checkStaffID(int id, bool save, int type);
+void saveStaffIDlist(int *list, int n, int type);
+void deleteStaffID(int id, int type);
 // NEED A ID DELETE FUNCTION
 
 #endif // !_MANAGER_HPP_

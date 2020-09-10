@@ -5,7 +5,6 @@ using namespace std;
 
 int main()
 {
-	menu();
 	//	Need missing classes
 	_getch();
 	return 0;

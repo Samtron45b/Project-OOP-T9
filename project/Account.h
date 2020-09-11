@@ -4,10 +4,8 @@
 #include <iostream>
 #include <string>
 #include "guest.hpp"
-#include "person.hpp"
 #include "myLib.hpp"
 #include "item.hpp"
-#include "account.hpp"
 using namespace std;
 
 class Account

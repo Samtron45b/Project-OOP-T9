@@ -34,6 +34,7 @@ public:
     void menu();
     void save();
     void get(int ID); // Not Override yet!
+    int getID();
 };
 bool is_Number(const string &s);
 

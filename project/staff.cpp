@@ -455,3 +455,8 @@ void staff::get(int ID)
     file.close();
     person::set(DoB, Name, Tel);
 }
+
+int staff::getID()
+{
+    return stoi(id);
+}

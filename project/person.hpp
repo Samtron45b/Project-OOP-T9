@@ -27,6 +27,7 @@ public:
     virtual void get(int ID) = 0;
     std::tuple<date, std::string, std::string> get();
     void set(date, std::string, std::string);
+    virtual int getID()=0;
 };
 
 

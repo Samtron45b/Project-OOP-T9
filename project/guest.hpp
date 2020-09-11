@@ -24,6 +24,7 @@ public:
     virtual bool buy(std::vector<item>, int);
     virtual void save() {}
     virtual void get(int ID) {}
+    virtual int getID()=0;
 };
 
 class member : public guest {
@@ -54,6 +55,7 @@ public:
     bool buy(std::vector<item>, int);
     //! Choice 0 to delete, choice=1 to add
     void updateFile(int type, item, int choice = 1);
+    virtual int getID();
 };
 
 #endif // !_GUEST_H_

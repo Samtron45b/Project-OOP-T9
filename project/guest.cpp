@@ -1015,4 +1015,8 @@ vector<item> member::favoriteitem()
     }
     return tmp;
 }
+int member::getID()
+{
+    return id;
+}
 

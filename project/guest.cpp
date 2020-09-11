@@ -5,7 +5,7 @@
 #include <set>
 #include "myLib.hpp"
 #include <algorithm>
-#include <string>
+
 using namespace std;
 
 const string url = "./data/";
@@ -248,19 +248,23 @@ void guest::exportFile()
         file2.close();
     }
 }
-bool guest::buy(std::vector<item> x, int id)
+bool guest::buy(std::vector<item> x, int id,int type)
 {
-    x[id].output();
-    int choice;
-    cout << "Do you want to buy\n";
-    cout << "(0): No\n";
-    cout << "(1): Yes\n";
-    cout << "Input your choice: ";
-    if (!(cin >> choice))
+    int choice=1;
+    if (type == 0)
     {
-        cin.clear();
-        cin.ignore(10000, '\n');
         choice = 0;
+        x[id].output();
+        cout << "Do you want to buy\n";
+        cout << "(0): No\n";
+        cout << "(1): Yes\n";
+        cout << "Input your choice: ";
+        if (!(cin >> choice))
+        {
+            cin.clear();
+            cin.ignore(10000, '\n');
+            choice = 0;
+        }
     }
     if (choice)
     {
@@ -271,10 +275,15 @@ bool guest::buy(std::vector<item> x, int id)
             cin.ignore(10000, '\n');
             choice = 1;
         }
+        if (choice <= 0)
+        {
+            choice = 1;
+        }
         if (choice > x[id].storage)
         {
             choice = x[id].storage;
         }
+        if (choice == 0) return false;
         cart[x[id]] += choice;
         money += x[id].price * choice;
         x[id].storage -= choice;
@@ -480,24 +489,23 @@ void member::menu()
             temp = foo.getAll();
             bool checkInput = true;
             int choice = -1;
-            int itemID, ord;
+            int itemID, ord=-1;
             bool checkItem = true;
             int cont = 1;
             while (true)
             {
-                checkInput = true;
+                checkInput = false;
                 while (true)
                 {
                     for (auto x : temp)
                     {
-                        if (x.storage == 0)continue;
                         x.output();
                     }
                     cout << "Input id of the item you want to buy: ";
                     cin >> itemID;
                     for (int i = 0; i < temp.size(); ++i)
                     {
-                        if (temp[i].id == itemID && temp[i].storage)
+                        if (temp[i].id == itemID )
                         {
                             checkItem = true;
                             ord = i;
@@ -506,18 +514,13 @@ void member::menu()
                     }
                     if (!checkItem)
                     {
-                        break;
+                        cout << "Item not found!\n";
+                        cout << "Input again!\n";
                     }
                     else
                     {
-                        cout << "Input (0) To break\n";
-                        cout << "Input (1) to continue\n";
-                        checkInput = cinIg(cin, choice, true);
-                        if (!checkInput || !choice)
-                        {
-                            cont = 0;
-                            break;
-                        }
+                           break;
+
                     }
                 }
 
@@ -972,9 +975,69 @@ vector<item> member::preOrder()
     }
     return tmp;
 }
-bool member::buy(std::vector<item> list, int id)
+bool member::buy(std::vector<item> list, int id,int type)
 {
-    return guest::buy(list, id);
+    int choice = -1;
+    string link=url+"member/" + to_string(id) ;
+    if (list[id].storage == 0)
+    {
+        cout << "Item is not available!";
+        cout << "Do you want to pre oreder!\n";
+        cout << "Enter (0): To return\n";
+        cout << "Enter (1): To add\n";
+        if (cinIg(cin, choice))
+        {
+            if (choice != 1)
+                return false;
+             link+= "preOrder.txt";
+            ofstream myFile(link,ios::app);
+            if (myFile.is_open())
+            {
+                myFile << list[id];
+                myFile.close();
+            }
+            else
+            {
+                cout << "File not found!\n";
+                getchar();
+                clearConsole();
+                return false;
+            }
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+        return true;
+    }
+
+    list[id].output();
+    cout << endl;
+    cout << "Enter (0): To return\n";
+    cout << "Enter (1): To buy\n";
+    cout << "Enter (2): To add to favorite\n";
+    if (!cinIg(cin, choice) || choice != 1 || choice != 2)
+    {
+        return false;
+    }
+    if (choice == 1)
+        return guest::buy(list, id,1);
+    link +="favorite.txt";
+    ofstream myFile(link, ios::app);
+    if (myFile.is_open())
+    {
+        myFile << list[id];
+        myFile.close();
+    }
+    else
+    {
+        cout << "File not found!\n";
+        getchar();
+        clearConsole();
+        return false;
+    }
+    return true;
 }
 void member::save() {
     string link = url + "member/" + to_string(id);
@@ -1015,8 +1078,6 @@ vector<item> member::favoriteitem()
     }
     return tmp;
 }
-int member::getID()
-{
+int member::getID() {
     return id;
 }
-

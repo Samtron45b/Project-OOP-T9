@@ -20,6 +20,7 @@ public:
     void menu();
     void save();
     void get(int ID); // DO NOT KNOW WHAT TO CODE HERE
+    int getID();
 };
 
 bool checkStaffID(int id, bool save, int type);

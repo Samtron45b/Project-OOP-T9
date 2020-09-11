@@ -350,3 +350,8 @@ void manager::output()
     cout << "ID: " << id << endl;
     person::output();
 }
+
+int manager::getID()
+{
+    return id;
+}

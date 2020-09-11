@@ -9,13 +9,44 @@
 #include "person.hpp"
 using namespace std;
 
+bool Account::isExist(string _username)
+{
+	bool flag;
+	string read;
+	ifstream fetch;
+	fetch.open("account.txt");
+	if (fetch.is_open())
+	{
+		while (!fetch.eof())
+		{
+			getline(fetch, read);
+			if (read == " " || read == "") continue;
+			else
+			{
+				username = read;
+				if (username == _username)
+				{
+					cout << "This username is taken! Please try another one." << endl;
+					flag = 1;
+				}
+			}
+		}
+		fetch.close();
+	}
+	else
+	{
+		cout << "Error finding account file. Please try again." << endl;
+	}
+	if (flag) return 1; else return 0;
+}
+
 bool Account::create()
 {
 	string _username;
 	string _password;
 	int _ID;
 	int _type;
-	person* tmp;
+	person* tmp = new guest;
 
 	string read;
 	ofstream print;
@@ -32,17 +63,16 @@ bool Account::create()
 				//	tmp = new staff;
 				if (type == 3)
 					tmp = new member;
-				if (type == 4)
-					tmp = new guest;
-				cout << "Your new username: ";
-				cin >> _username;
+				do
+				{
+					cout << "Your new username: ";
+					cin >> _username;
+				} while (isExist(_username));
 				print << _username;
 				cout << "Your password: ";
 				cin >> _password;
 				print << _password;
-				cout << "Your ID: ";
-				cin >> _ID;
-				print << _ID;
+				tmp->input();
 				print << _type;
 		}
 		print.close();

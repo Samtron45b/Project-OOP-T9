@@ -16,10 +16,10 @@ public:
     void addNewStaff();
     void updateStaff();
     void deleteStaff();
-    vector<double> monthlySales(); // ???
+    vector<double> monthlySales() { vector<double> null; return null; } // ???
     void menu();
     void save();
-    void get(int ID); // DO NOT KNOW WHAT TO CODE HERE
+    void get(int ID);
     int getID();
 };
 

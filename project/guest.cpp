@@ -42,7 +42,7 @@ void guest::menu()
     pre = foo.getAll();
     bool checkInput = true;
     int choice = -1;
-    int itemID,ord;
+    int itemID,ord=-1;
     bool checkItem = true;
     while (true)
     {
@@ -102,6 +102,7 @@ void guest::menu()
                     {
                         if (x.storage == 0)continue;
                         x.output();
+                        cout << string(50, '=')<<endl;
                     }
                     cout << "Input id of the item you want to buy: ";
                     cin >> itemID;
@@ -114,31 +115,32 @@ void guest::menu()
                             break;
                         }
                     }
+                    clearConsole();
                     if (!checkItem)
                     {
-                        break;
+                        cout << "Item not found!\n";
+                        cout << "Input again!\n";
                     }
                     else
                     {
-                        cout << "Input (0) To break\n";
-                        cout << "Input (1) to continue\n";
-                        checkInput = cinIg(cin, choice, true);
-                        if (!checkInput||!choice)
-                        {
-                            cont = 0;
-                            break;
-                        }
+                        break;
                     }
                 }
 
                 if (!cont)break;
                 buy(pre, ord);
+                clearConsole();
                 cout << "Enter(0):  To break\n";
                 cout << "Enter(1):  To continue\n";
                 checkInput = cinIg(cin, choice, true);
-                if (!checkInput)
+                if (!checkInput||choice!=1)
                     cont = 0;
-                if (!cont) break;
+                if (!cont)
+                {
+                    choice = 1;
+                    break;
+                }
+                clearConsole();
             }
         }
         break;
@@ -155,7 +157,7 @@ void guest::menu()
             {
                 cout << "This is your bill!\n\n";
                 output();
-                cout << "Total       : " << setfill(' ') << setw(35) << fixed << setprecision(3) << money << "  |" << endl;
+                cout << "Total       : " << setfill(' ') << setw(40) << fixed << setprecision(3) << money << "  |" << endl;
                 exportFile();
                 getchar();
                 clearConsole();
@@ -214,7 +216,7 @@ void guest::exportFile()
         myFile.close();
     }
     int count;
-    fstream file1(link + "count.dat", ios::in);
+    fstream file1(link + "/count.dat", ios::in);
     if (file1.is_open())
     {
         file1 >> count;
@@ -224,8 +226,9 @@ void guest::exportFile()
     {
         throw "File not found";
     }
+    count++;
     string fileName = "#" + string(4 - (int)(log10(count)), '0') + to_string(count);
-    ofstream file2(link + fileName + ".exe");
+    ofstream file2(link +'/'+ fileName + ".dat");
     if (file2.is_open())
     {
         file2 << setfill('*') << setw(29) << fileName << setw(23) << "*\n";
@@ -244,8 +247,18 @@ void guest::exportFile()
         }
         file2 << "\n";
         file2 << setfill('*') << setw(52) << "*\n\n";
-        file2 << "Total       : " << setfill(' ') << setw(38) << fixed << setprecision(3) << money << endl;
+        file2 << "Total       : " << setfill(' ') << setw(39) << fixed << setprecision(3) << money << endl;
         file2.close();
+    }
+    file1.open(link + "/count.dat", ios::out);
+    if (file1.is_open())
+    {
+        file1 << count;
+        file1.close();
+    }
+    else
+    {
+        throw "File not found";
     }
 }
 bool guest::buy(std::vector<item> x, int id,int type)
@@ -375,7 +388,7 @@ void member::menu()
             if (cart.size() == 0)
             {
                 cout << "(0) Go home\n";
-                cout << "(1) Update info";
+                cout << "(1) Update info\n";
                 cout << "(2) Shopping\n";
                 cout << "(3) View favorite\n";
                 cout << "(4) View search history\n";
@@ -432,11 +445,19 @@ void member::menu()
             {
                 cout << "This is your bill!\n\n";
                 output();
-                cout << "Total       : " << setfill(' ') << setw(35) << fixed << setprecision(3) << payment() << "  |" << endl;
+                cout << "Total       : " << setfill(' ') << setw(40) << fixed << setprecision(3) << payment() << "  |" << endl;
                 exportFile();
-
                 cout << "\n\n";
             }
+            if (use)
+            {
+                date today;
+                if (today.month != DoB.month)
+                {
+                    use = false;
+                }
+            }
+            save();
             cout << "Goodbye!\n";
             cout << "Have a nice day!\n";
             exportFile();
@@ -500,9 +521,16 @@ void member::menu()
                     for (auto x : temp)
                     {
                         x.output();
+                        cout << string(50, '=') << endl;
                     }
+                    cout << endl << "(0): Exit\n";
                     cout << "Input id of the item you want to buy: ";
                     cin >> itemID;
+                    if (itemID<0)
+                    {
+                        cont = 0;
+                        break;
+                    }
                     for (int i = 0; i < temp.size(); ++i)
                     {
                         if (temp[i].id == itemID )
@@ -512,6 +540,7 @@ void member::menu()
                             break;
                         }
                     }
+                    clearConsole();
                     if (!checkItem)
                     {
                         cout << "Item not found!\n";
@@ -520,25 +549,31 @@ void member::menu()
                     else
                     {
                            break;
-
                     }
                 }
 
                 if (!cont)break;
                 buy(temp, ord);
+                clearConsole();
                 cout << "Enter(0):  To break\n";
                 cout << "Enter(1):  To continue\n";
                 checkInput = cinIg(cin, choice, true);
-                if (!checkInput)
+                clearConsole();
+                if (!checkInput||choice!=1)
                     cont = 0;
-                if (!cont) break;
+                if (!cont)
+                {
+                    choice = 1;
+                    break;
+                }
             }
         }
+        break;
         case 3:
         case 4:
         case 5:
             temp = shoppingCookie(choice - 2);
-            cout << setfill(' ') << setw(30) << "List: \n";
+            cout << "List: \n";
             if (temp.size() != 0)
                 for (int i = 0; i < temp.size(); ++i)
                 {
@@ -560,13 +595,9 @@ void member::menu()
             getchar();
             clearConsole();
             break;
-            break;
         default:
             break;
         }
-
-        getchar();
-        clearConsole();
         if (choice == 0)
         {
             break;
@@ -613,7 +644,7 @@ void member::output(bool real_age)
 {
     cout << "ID: " << id << endl;
     guest::output();
-    cout << "Discount: " << setfill(' ') << setw(39) << discount(rank, DoB.birthdayMonth()) << "  |";
+    cout << "Discount: " << setfill(' ') << setw(45) << discount(rank, DoB.birthdayMonth()) << "  |\n";
 }
 void member::exportFile()
 {
@@ -632,7 +663,7 @@ void member::exportFile()
         myFile.close();
     }
     int count;
-    fstream file1(link + "count.dat", ios::in);
+    fstream file1(link + "/count.dat", ios::in);
     if (file1.is_open())
     {
         file1 >> count;
@@ -642,8 +673,9 @@ void member::exportFile()
     {
         throw "File not found";
     }
+    count++;
     string fileName = "#" + string(4 - (int)(log10(count)), '0') + to_string(count);
-    ofstream file2(link + fileName + ".exe");
+    ofstream file2(link +'/' +fileName + ".dat");
     if (file2.is_open())
     {
         file2 << setfill('*') << setw(29) << fileName << setw(23) << "*\n";
@@ -661,9 +693,20 @@ void member::exportFile()
             file2 << setfill('-') << setw(52) << "-\n";
         }
         file2 << "\n";
-        file2 << setfill('*') << setw(52) << "*\n\n";
+        file2 << "Discount: " << setfill(' ') << setw(45) << discount(rank, DoB.birthdayMonth()) << "  |\n";
+        file2 << setfill('*') << setw(52) << "*\n";
         file2 << "Total       : " << setfill(' ') << setw(38) << fixed << setprecision(3) << money << endl;
         file2.close();
+    }
+    file1.open(link + "/count.dat", ios::out);
+    if (file1.is_open())
+    {
+        file1 << count;
+        file1.close();
+    }
+    else
+    {
+        throw "File not found";
     }
 }
 double member::payment(bool change)
@@ -933,7 +976,7 @@ vector<item> member::shoppingCookie(int type)
 }
 vector<item> member::viewHistory()
 {
-    string link = url + "member/" + to_string(id) + "history.txt";
+    string link = url + "member/" + to_string(id) + "/history.txt";
     vector<item>tmp;
     ifstream myFile(link);
     if (myFile.is_open())
@@ -955,7 +998,7 @@ vector<item> member::viewHistory()
 }
 vector<item> member::preOrder()
 {
-    string link = url + "member/" + to_string(id) + "preOrder.txt";
+    string link = url + "member/" + to_string(id) + "/preOrder.txt";
     vector<item>tmp;
     ifstream myFile(link);
     if (myFile.is_open())
@@ -975,11 +1018,11 @@ vector<item> member::preOrder()
     }
     return tmp;
 }
-bool member::buy(std::vector<item> list, int id,int type)
+bool member::buy(std::vector<item> list, int _id,int type)
 {
     int choice = -1;
     string link=url+"member/" + to_string(id) ;
-    if (list[id].storage == 0)
+    if (list[_id].storage == 0)
     {
         cout << "Item is not available!";
         cout << "Do you want to pre oreder!\n";
@@ -989,11 +1032,11 @@ bool member::buy(std::vector<item> list, int id,int type)
         {
             if (choice != 1)
                 return false;
-             link+= "preOrder.txt";
+             link+= "/preOrder.txt";
             ofstream myFile(link,ios::app);
             if (myFile.is_open())
             {
-                myFile << list[id];
+                myFile << list[_id];
                 myFile.close();
             }
             else
@@ -1012,22 +1055,22 @@ bool member::buy(std::vector<item> list, int id,int type)
         return true;
     }
 
-    list[id].output();
+    list[_id].output();
     cout << endl;
     cout << "Enter (0): To return\n";
     cout << "Enter (1): To buy\n";
     cout << "Enter (2): To add to favorite\n";
-    if (!cinIg(cin, choice) || choice != 1 || choice != 2)
+    if (!cinIg(cin, choice) || choice < 1 || choice > 2)
     {
         return false;
     }
     if (choice == 1)
-        return guest::buy(list, id,1);
-    link +="favorite.txt";
+        return guest::buy(list, _id,1);
+    link +="/favorite.txt";
     ofstream myFile(link, ios::app);
     if (myFile.is_open())
     {
-        myFile << list[id];
+        myFile << list[_id];
         myFile.close();
     }
     else
@@ -1058,7 +1101,7 @@ void member::save() {
 }
 vector<item> member::favoriteitem()
 {
-    string link = url + "member/" + to_string(id) + "favorite.txt";
+    string link = url + "member/" + to_string(id) + "/favorite.txt";
     vector<item>tmp;
     ifstream myFile(link);
     if (myFile.is_open())

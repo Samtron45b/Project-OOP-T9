@@ -1,5 +1,5 @@
 #include "manager.hpp"
-
+#include "Account.h"
 bool checkStaffID(int ID, bool save, int type)
 {
     ifstream list;
@@ -94,11 +94,8 @@ void manager::addNewStaff()
         case 'Y':
         case 'y':
         {
-            staff *temp = new staff;
-            temp->input();
-            // Missing File + Save Data;
-            cout << "New Staff Added!" << endl;
-            delete temp;
+            Account acc;
+            acc.create(1);
             break;
         }
         case 'N':

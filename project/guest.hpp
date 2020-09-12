@@ -21,10 +21,10 @@ public:
     virtual void load(std::istream&);
     friend std::istream& operator>>(std::istream& in, guest& a);
     friend std::ostream& operator<<(std::ostream& out, const guest& a);
-    virtual bool buy(std::vector<item>, int);
+    virtual bool buy(std::vector<item>, int,int type=0);
     virtual void save() {}
     virtual void get(int ID) {}
-    virtual int getID()=0;
+    virtual int getID() { return 0; }
 };
 
 class member : public guest {
@@ -52,7 +52,7 @@ public:
     std::vector<item> preOrder();
     std::vector<item> favoriteitem();
     void get(int ID);
-    bool buy(std::vector<item>, int);
+    bool buy(std::vector<item>, int,int type=0);
     //! Choice 0 to delete, choice=1 to add
     void updateFile(int type, item, int choice = 1);
     virtual int getID();

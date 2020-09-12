@@ -16,11 +16,15 @@ public:
     void addNewStaff();
     void updateStaff();
     void deleteStaff();
-    vector<double> monthlySales(); // ???
-    virtual void menu();
-    virtual void save();
-    virtual void get(int ID); // DO NOT KNOW WHAT TO CODE HERE
-    virtual int getID();
+    vector<double> monthlySales()
+    {
+        vector<double> null;
+        return null;
+    } // ???
+    void menu();
+    void save();
+    void get(int ID);
+    int getID();
 };
 
 bool checkStaffID(int id, bool save, int type);

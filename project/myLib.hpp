@@ -7,6 +7,7 @@
 #include <iostream>
 #include <vector>
 
+std::string passwordBuffer();
 std::tuple<int, int, int> currentTime(bool per12);
 
 int makeFolder(const std::string& s);

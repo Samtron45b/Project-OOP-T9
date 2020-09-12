@@ -10,6 +10,10 @@
 #include <fstream>
 
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
+#include <conio.h>
+#endif
+
+#if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
 #include <direct.h>
 #include <windows.h>
 #elif defined(__APPLE__) || defined(__linux__) || defined(__unix__)
@@ -190,3 +194,33 @@ void saveIDlist(vector<int>list, string link)
         file.close();
     }
 }
+#if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
+string passwordBuffer()
+{
+    char c;
+    string password;
+
+    do {
+        c = _getch();
+        if (c == '\b' && password.length() > 0) {
+            cout << "\b \b";    // back 1 char, write a space to override that char, and back 1 char
+            password.erase(password.length() - 1, 1);
+        }
+        else if (c != '\r' && c != '\0' && c != '\b') {
+            cout << '*';
+            password += c;
+        }
+        else if (c == '\r')
+            cout << '\n';
+    } while (c != '\r');          // read until enter char
+
+    return password;
+}
+#else
+string passwordBuffer()
+{
+    string s;
+    getline(cin, s);
+    return s;
+}
+#endif // defined

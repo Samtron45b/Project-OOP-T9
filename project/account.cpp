@@ -91,7 +91,7 @@ bool Account::create(int mode)
 				} while (isExist(_username));
 				print << _username << endl;
 				cout << "Your password: ";
-				cin >> _password;
+				_password=passwordBuffer();
 				print << _password << endl;
 				cin.ignore(1);
 				tmp->input();
@@ -183,7 +183,7 @@ bool Account::changePass()
 	if (choice == 1)
 	{
 		cout << "Please type your new password: ";
-		cin >> _newpassword;
+		_newpassword = passwordBuffer();
 
 		string read;
 		ifstream fetch;
@@ -297,7 +297,7 @@ void Account::login()
 		if (checkLogin(_username, type))
 		{
 			cout << "Please enter your password: ";
-			getline(cin, _password);
+			_password = passwordBuffer();
 			if (password == _password)
 			{
 				cout <<"Login success"<< endl;

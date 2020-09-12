@@ -21,8 +21,8 @@ public:
     staff(){};
     staff(int id);
     ~staff(){};
-    void input();
-    void output();
+    virtual void input();
+    virtual void output();
     void checkIn();
     void addNewMem();
     void showMem();
@@ -31,10 +31,10 @@ public:
     void updateRecord();            // OK
     bool deleteRecord();            //OK
     pair<item, int> searchRecord(); // OK
-    void menu();
-    void save();
-    void get(int ID); // Not Override yet!
-    int getID();
+    virtual void menu();
+    virtual void save();
+    virtual void get(int ID); // Not Override yet!
+    virtual int getID();
 };
 bool is_Number(const string &s);
 

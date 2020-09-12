@@ -28,6 +28,7 @@ void staff::input()
 {
     while (true)
     {
+        system("cls");
         cout << "Input ID: ";
         cin >> id;
         cin.ignore(1);
@@ -38,6 +39,7 @@ void staff::input()
         else
         {
             cout << "Invalid Input! Please Try Again!\n\n";
+            system("pause");
         }
     }
 
@@ -79,7 +81,7 @@ void staff::checkIn()
         throw "File cannnot open";
     else
     {
-        if (timeinfo->tm_hour < 8)
+        if (timeinfo->tm_hour < 18)
         {
             cout << "Check-in Successfully!" << endl;
             outfile << "1" << endl;
@@ -99,7 +101,7 @@ void staff::addNewMem()
     do
     {
         system("cls");
-        cout << "Add New Member?(Y/ N)";
+        cout << "Add New Member?(Y/ N): ";
         cin >> choice;
         cin.ignore(1);
         switch (choice)
@@ -123,7 +125,7 @@ void staff::addNewMem()
             cout << "No New Member Added" << endl;
         }
         }
-        cout << "Continue to Add New Member?(Y/N)" << endl;
+        cout << "\nContinue to Add New Member?(Y/N): ";
         cin >> cont;
     } while (cont == 'Y' || cont == 'y');
 }
@@ -165,8 +167,8 @@ void staff::updateMem()
     else
     {
         char cont;
-        cout << "Update This Member?(Y/N)" << endl;
-        cout << "Your Choice:";
+        cout << "ID Found!" << endl;
+        cout << "\nUpdate This Member?(Y/N): ";
         cin >> cont;
         cin.ignore(1);
         switch (cont)
@@ -174,6 +176,7 @@ void staff::updateMem()
         case 'Y':
         case 'y':
         {
+            clearConsole();
             member *temp = new member(id);
             ofstream info("./data/member/" + to_string(id) + "/info.dat");
             if (info.is_open())
@@ -190,7 +193,9 @@ void staff::updateMem()
                 temp->set(d, name, tel);
                 temp->save();
                 info.close();
-                cout << "Update Member Successfully!" << endl;
+                cout << "Update Member Successfully!\n\n"
+                     << endl;
+                temp->output();
             }
             else
             {
@@ -202,6 +207,7 @@ void staff::updateMem()
         case 'n':
         default:
             cout << "Stop Updating Member!" << endl;
+            system("pause");
             break;
         }
     }
@@ -234,8 +240,10 @@ void staff::menu()
         switch (choice)
         {
         case 0:
+            clearConsole();
             cout << "See You Next Time!" << endl;
-            break;
+            system("pause");
+            return;
         case 1: //Checkin
             checkIn();
             break;
@@ -261,16 +269,23 @@ void staff::menu()
             searchRecord();
             break;
         }
-
-        cout << "Continue?";
+        cout << "\n";
+        system("pause");
+        clearConsole();
+        cout << "Return to Staff Menu(Y/N)?: ";
         cin >> cont;
         cin.ignore(1);
 
         switch (cont)
         {
+        case 'Y':
+        case 'y':
+            break;
         case 'N':
         case 'n':
+        default:
             cout << "See You Next Time" << endl;
+            system("pause");
             clearConsole();
             break;
         }
@@ -311,6 +326,7 @@ void staff::inputItem()
             obj->input();
             delete obj;
             cout << "\nNew Record Added!" << endl;
+            system("pause");
             break;
         }
         case 'N':

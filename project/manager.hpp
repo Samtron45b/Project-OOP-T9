@@ -11,16 +11,16 @@ private:
     int id;
 
 public:
-    void input();
-    void output();
+    virtual void input();
+    virtual void output();
     void addNewStaff();
     void updateStaff();
     void deleteStaff();
     vector<double> monthlySales(); // ???
-    void menu();
-    void save();
-    void get(int ID); // DO NOT KNOW WHAT TO CODE HERE
-    int getID();
+    virtual void menu();
+    virtual void save();
+    virtual void get(int ID); // DO NOT KNOW WHAT TO CODE HERE
+    virtual int getID();
 };
 
 bool checkStaffID(int id, bool save, int type);

@@ -86,7 +86,7 @@ void manager::addNewStaff()
     do
     {
         system("cls");
-        cout << "Add New Staff?(Y/ N)";
+        cout << "Add New Staff?(Y/ N):";
         cin >> choice;
         cin.ignore(1);
         switch (choice)
@@ -99,80 +99,92 @@ void manager::addNewStaff()
             // Missing File + Save Data;
             cout << "New Staff Added!" << endl;
             delete temp;
+            system("pause");
+
             break;
         }
         case 'N':
         case 'n':
         default:
         {
-            cout << "No New Staff Added" << endl;
+            cout << "No New Staff Added!" << endl;
         }
         }
-        cout << "Continue to Add New Staff?(Y/N)" << endl;
+        system("cls");
+        cout << "Continue to Add New Staff?(Y/N):";
         cin >> cont;
+        system("cls");
     } while (cont == 'Y' || cont == 'y');
 }
 
 void manager::updateStaff()
 {
-
     int id;
+    char cont;
     do
     {
-        system("cls");
-        cout << "Enter Staff ID:";
-        cin >> id;
-    } while (is_Number(to_string(id)) == false);
-    if (checkStaffID(id, false, 1) == true)
-    {
-        cout << "ID not found!" << endl;
-    }
-    else
-    {
-        char cont;
         do
         {
+            system("cls");
+            cout << "Enter Staff ID:";
+            cin >> id;
+        } while (is_Number(to_string(id)) == false);
+        if (checkStaffID(id, false, 1) == true)
+        {
+            cout << "ID not found!" << endl;
+        }
+        else
+        {
+            char cont;
+            cout << "ID Found!\n\n";
             cout << "Update This Staff?(Y/N)" << endl;
             cout << "Your Choice:";
             cin >> cont;
-        } while (cont != 'Y' || cont != 'y' || cont != 'N' || cont != 'n');
-        switch (cont)
-        {
-        case 'Y':
-        case 'y':
-        {
-            staff *temp = new staff(id);
-            ofstream info("./data/staff/" + to_string(id) + "/info.dat");
-            if (info.is_open())
+            cin.ignore(1);
+            switch (cont)
             {
-                //Update staff basic info
-                string name, tel;
-                date d;
-                cout << "Enter New Name: ";
-                getline(cin, name);
-                cout << "Enter New Telephone Number: ";
-                getline(cin, tel);
-                cout << "Date of Birth" << endl;
-                cin >> d;
-                temp->set(d, name, tel);
-                temp->save();
-                info.close();
-                cout << "Update Staff Successfully!" << endl;
-            }
-            else
+            case 'Y':
+            case 'y':
             {
-                cout << "Cannot Open File!" << endl;
+                clearConsole();
+                staff *temp = new staff(id);
+                ofstream info("./data/staff/" + to_string(id) + "/info.dat");
+                if (info.is_open())
+                {
+                    //Update staff basic info
+                    string name, tel;
+                    date d;
+                    cout << "Enter New Name: ";
+                    getline(cin, name);
+                    cout << "Enter New Telephone Number: ";
+                    getline(cin, tel);
+                    cout << "Date of Birth" << endl;
+                    cin >> d;
+                    temp->set(d, name, tel);
+                    temp->save();
+                    info.close();
+                    cout << "Update Staff Successfully!" << endl;
+                    system("pause");
+                }
+                else
+                {
+                    cout << "Cannot Open File!" << endl;
+                }
+                delete temp;
+                break;
             }
-            delete temp;
-            break;
+            case 'N':
+            case 'n':
+            default:
+                cout << "Stop Updating Staff!" << endl;
+                break;
+            }
         }
-        case 'N':
-        case 'n':
-        default:
-            cout << "Stop Updating Staff!" << endl;
-            break;
-        }
-    }
+        system("cls");
+        cout << "Continue to Update Staff?(Y/N):";
+        cin >> cont;
+        system("cls");
+    } while (cont == 'Y' || cont == 'y');
 }
 
 void manager::deleteStaff()
@@ -183,18 +195,21 @@ void manager::deleteStaff()
     {
         do
         {
+            system("cls");
             cout << "Enter Staff ID to delete: ";
             cin >> id;
         } while (is_Number(to_string(id)) == false);
         if (checkStaffID(id, false, 1) == false)
         {
-            cout << "Do you want to delete this staff?(Y/N): ";
+            cout << "ID Found!" << endl;
+            cout << "\nDo you want to delete this staff?(Y/N): ";
             cin >> cont;
             if (cont == 'Y' || cont == 'y')
             {
                 filesystem::remove_all("./data/staff/" + to_string(id));
                 // Need an ID Update Function
                 deleteStaffID(id, 1);
+                cout << "\nStaff Deleted!" << endl;
             }
             else
                 break;
@@ -203,8 +218,9 @@ void manager::deleteStaff()
         {
             cout << "No ID Found!" << endl;
         }
-
-        cout << "Continue?(Y/N): ";
+        system("pause");
+        system("cls");
+        cout << "Continue to delete Staff?(Y/N): ";
         cin >> cont;
 
         switch (cont)
@@ -235,7 +251,7 @@ void manager::menu()
         cout << "(3) Delete Staff" << endl;
         cout << "(4) Show Monthly Sales" << endl;
 
-        cout << "Input Your Choice: " << endl;
+        cout << "Input Your Choice: ";
         do
         {
             checkInput = cinIg(cin, choice, true);
@@ -243,9 +259,10 @@ void manager::menu()
         switch (choice)
         {
         case 0:
-            cout << "See You Next Time!" << endl;
             clearConsole();
-            break;
+            cout << "See You Next Time!" << endl;
+            system("pause");
+            return;
         case 1: //Add new Staff
             addNewStaff();
             break;
@@ -259,8 +276,7 @@ void manager::menu()
             //  monthlySales();
             break;
         }
-
-        cout << "Continue?";
+        cout << "Return to Manager Menu(Y/N)?: ";
         cin >> cont;
         cin.ignore(1);
         switch (cont)
@@ -272,6 +288,7 @@ void manager::menu()
         case 'n':
         default:
             cout << "See You Next Time" << endl;
+            system("pause");
             clearConsole();
             break;
         }

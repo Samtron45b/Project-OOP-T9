@@ -33,7 +33,7 @@ public:
     pair<item, int> searchRecord(); // OK
     void menu();
     void save();
-    void get(int ID); // Not Override yet!
+    void get(int ID);
     int getID();
 };
 bool is_Number(const string &s);

@@ -1,6 +1,6 @@
 #include "staff.hpp"
 #include "manager.hpp"
-
+#include "Account.h"
 bool is_Number(const string &s)
 {
     return !s.empty() && find_if(s.begin(),
@@ -107,13 +107,10 @@ void staff::addNewMem()
         case 'Y':
         case 'y':
         {
-            member *temp = new member;
-            temp->input();
-            // Missing File + Save Data;
+            Account acc;
+            acc.create(2);
             clearConsole();
             cout << "New Member Added!" << endl;
-            temp->output();
-            delete temp;
             break;
         }
         case 'N':
@@ -307,9 +304,8 @@ void staff::inputItem()
         case 'Y':
         case 'y':
         {
-            item *obj = new item;
-            obj->input();
-            delete obj;
+            item obj;
+            obj.input();
             cout << "\nNew Record Added!" << endl;
             break;
         }

@@ -14,7 +14,7 @@ bool Account::isExist(string _username)
 	bool flag;
 	string read;
 	ifstream fetch;
-	fetch.open("account.txt");
+	fetch.open("./data/account/account.txt");
 	if (fetch.is_open())
 	{
 		while (!fetch.eof())
@@ -50,7 +50,7 @@ bool Account::create()
 
 	string read;
 	ofstream print;
-	print.open("account.txt");
+	print.open("./data/account/account.txt");
 	if (print.is_open())
 	{
 		while (!print.eof())
@@ -68,12 +68,13 @@ bool Account::create()
 					cout << "Your new username: ";
 					cin >> _username;
 				} while (isExist(_username));
-				print << _username;
+				print << _username << endl;
 				cout << "Your password: ";
 				cin >> _password;
-				print << _password;
+				print << _password << endl;
 				tmp->input();
-				print << _type;
+				print << endl;
+				print << _type << endl;
 		}
 		print.close();
 		return 1;
@@ -106,7 +107,7 @@ bool Account::removeAcc()
 		string read;
 		ifstream fetch;
 		ofstream print;
-		char file[] = "account.txt";
+		char file[] = "./data/account/account.txt";
 	    fetch.open(file);
 		print.open("accountTmp.txt");
 
@@ -166,7 +167,7 @@ bool Account::changePass()
 		string read;
 		ifstream fetch;
 		ofstream print;
-		char file[] = "account.txt";
+		char file[] = "./data/account/account.txt";
 		fetch.open(file);
 		print.open("accountTmp.txt");
 
@@ -209,7 +210,7 @@ bool Account::checkLogin(string _username, int _type)
 	bool flag = 0;
 	string read;
 	ifstream fetch;
-	fetch.open("account.txt");
+	fetch.open("./data/account/account.txt");
 	if (fetch.is_open())
 	{
 		while (!fetch.eof())
@@ -238,6 +239,11 @@ bool Account::checkLogin(string _username, int _type)
 		cout << "Error finding account file. Please try again." << endl;
 	}
 	if (flag) return 1; else return 0;
+}
+
+void Account::callMenu()
+{
+	myMan->menu();
 }
 
 Account Account::login()
@@ -357,6 +363,7 @@ void menu()
 			break;
 		case 4:
 			you.login();
+			you.callMenu();
 			cout << endl << "Welcome!" << endl;
 			break;
 		default:

@@ -4,8 +4,10 @@
 #include <iostream>
 #include <string>
 #include "guest.hpp"
+#include "person.hpp"
 #include "myLib.hpp"
 #include "item.hpp"
+#include "account.hpp"
 using namespace std;
 
 class Account
@@ -27,6 +29,7 @@ public:
 	bool create();
 	bool removeAcc();
 	Account login();
+	void callMenu();
 	bool changePass();
 	bool checkLogin(string _username, int _type);
 };

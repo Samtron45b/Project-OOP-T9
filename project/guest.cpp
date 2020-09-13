@@ -15,6 +15,7 @@ void updateTotal(string link,map<item,int>cart, float money,float discount=0)
 {
     bool exist = fs::exists(link + "/total.csv");
     fstream csvFile;
+    float total=0;
     map<item, int> tmp;
     if (exist)
     {
@@ -25,15 +26,18 @@ void updateTotal(string link,map<item,int>cart, float money,float discount=0)
             string token;
             item dum;
             int foo;
-            float total;
 
             while (getline(csvFile, line))
             {
+                stringstream check(line);
                 if (line.find("Total:") != string::npos)
                 {
+                    getline(check, token, ',');
+                    getline(check, token);
+                    total = stof(token);
                     break;
                 }
-                stringstream check(line);
+                
                 getline(check, token, ',');
                 dum.id = stoi(token);
                 getline(check, token, ',');
@@ -59,7 +63,7 @@ void updateTotal(string link,map<item,int>cart, float money,float discount=0)
         {
             csvFile << x.first.id << "," << x.first.name << "," << x.second << "," << x.first.price << "," << x.first.price * x.second << endl;
         }
-        csvFile << "Total:" << "," << money << endl;
+        csvFile << "Total:" << "," << money+total << endl;
         csvFile.close();
     }
     else

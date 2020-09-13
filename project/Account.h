@@ -24,7 +24,7 @@ public:
 	Account(string _username, string _password) : username(_username), password(_password), ID(0), type(0) {}
 	Account(string _username, string _password, int _ID) : username(_username), password(_password), ID(_ID), type(0) {}
 	Account(string _username, string _password, int _ID, int _type) : username(_username), password(_password), ID(_ID), type(_type) {}
-	~Account() { delete myMan; }
+	~Account() { if(myMan!=nullptr) delete myMan; }
 	bool isExist(string _username);
 	bool create(int mode=0);
 	bool removeAcc();

@@ -15,6 +15,7 @@ void updateTotal(string link,map<item,int>cart, float money,float discount=0)
 {
     bool exist = fs::exists(link + "/total.csv");
     fstream csvFile;
+    float total=0;
     map<item, int> tmp;
     if (exist)
     {
@@ -25,15 +26,18 @@ void updateTotal(string link,map<item,int>cart, float money,float discount=0)
             string token;
             item dum;
             int foo;
-            float total;
 
             while (getline(csvFile, line))
             {
+                stringstream check(line);
                 if (line.find("Total:") != string::npos)
                 {
+                    getline(check, token, ',');
+                    getline(check, token);
+                    total = stof(token);
                     break;
                 }
-                stringstream check(line);
+                
                 getline(check, token, ',');
                 dum.id = stoi(token);
                 getline(check, token, ',');
@@ -59,7 +63,7 @@ void updateTotal(string link,map<item,int>cart, float money,float discount=0)
         {
             csvFile << x.first.id << "," << x.first.name << "," << x.second << "," << x.first.price << "," << x.first.price * x.second << endl;
         }
-        csvFile << "Total:" << "," << money << endl;
+        csvFile << "Total:" << "," << money+total << endl;
         csvFile.close();
     }
     else
@@ -441,7 +445,9 @@ void member::menu()
     {
         auto [Date, Name, Tel] = person::get();
         unsigned int first_of_blank = Name.find_first_of(' '), last_of_blank = Name.find_last_of(' ');
-        content += Name.substr(0, first_of_blank) + Name.substr(last_of_blank, Name.size());
+        if (last_of_blank == first_of_blank|| first_of_blank == string::npos)
+            content += Name;
+        else content += Name.substr(0, first_of_blank) + Name.substr(last_of_blank, Name.size());
     }
     content += "! What are you up to?";
     cout << string((52 - 9 - content.size()) / 2, ' ') << "Welcome, " << content << endl;;

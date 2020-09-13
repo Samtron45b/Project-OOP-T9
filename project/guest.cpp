@@ -441,7 +441,9 @@ void member::menu()
     {
         auto [Date, Name, Tel] = person::get();
         unsigned int first_of_blank = Name.find_first_of(' '), last_of_blank = Name.find_last_of(' ');
-        content += Name.substr(0, first_of_blank) + Name.substr(last_of_blank, Name.size());
+        if (last_of_blank == first_of_blank|| first_of_blank == string::npos)
+            content += Name;
+        else content += Name.substr(0, first_of_blank) + Name.substr(last_of_blank, Name.size());
     }
     content += "! What are you up to?";
     cout << string((52 - 9 - content.size()) / 2, ' ') << "Welcome, " << content << endl;;

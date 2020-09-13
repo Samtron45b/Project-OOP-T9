@@ -367,3 +367,59 @@ int manager::getID()
 {
     return id;
 }
+
+void manager::monthlySales()
+{
+    system("cls");
+
+    int year, month;
+    cout << "Enter Year and Month (seperated by space): ";
+    cin >> year >> month;
+    ifstream sales("./data/export/" + to_string(year) + "/" + to_string(month) + "/total.csv");
+    map<item, int> tmp;
+    float total = 0;
+
+    if (sales.is_open())
+    {
+        cout << "\nOpen File Successfully!" << endl;
+        string line;
+        string token;
+        item dum;
+        int foo;
+
+        while (getline(sales, line))
+        {
+            stringstream check(line);
+            if (line.find("Total:") != string::npos)
+            {
+                getline(check, token, ',');
+                getline(check, token);
+                total = stof(token);
+                break;
+            }
+
+            getline(check, token, ',');
+            dum.id = stoi(token);
+            getline(check, token, ',');
+            dum.name = token;
+            getline(check, token, ',');
+            foo = stoi(token);
+            getline(check, token, ',');
+            dum.price = stof(token);
+            getline(check, token);
+            tmp[dum] += foo;
+        }
+        sales.close();
+
+        cout << "\n\n|" << left << setw(4) << "ID"
+             << "|" << left << setw(10) << "Item Name"
+             << "|" << left << setw(10) << "Quantity"
+             << "|" << left << setw(8) << "Price"
+             << "|" << endl;
+        for (auto x : tmp)
+        {
+            cout << "\n|" << left << setw(4) << x.first.id << "|" << left << setw(10) << x.first.name << "|" << left << setw(10) << x.second << "|" << left << setw(8) << x.first.price << "|" << endl;
+        }
+        cout << "\nTotal: " << total << "\n\n";
+    }
+}

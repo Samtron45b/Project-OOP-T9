@@ -5,6 +5,7 @@
 #include <vector>
 #include <direct.h>
 #include <filesystem>
+#include <sstream>
 class manager : public person
 {
 private:

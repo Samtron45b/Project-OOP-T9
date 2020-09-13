@@ -13,7 +13,6 @@ std::tuple<int, int, int> currentTime(bool per12);
 int makeFolder(const std::string& s);
 bool makeDir(const std::string& dir);
 void clearConsole();
-
 bool checkID(int ID, int file, bool save = true);
 void saveIDlist(std::vector<int>list, std::string link);
 class myRandom

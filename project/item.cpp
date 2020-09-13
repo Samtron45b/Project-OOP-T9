@@ -394,7 +394,7 @@ item item::operator=(const item& rhs)
 }
 bool item::operator==(item rhs)
     {
-        if((name!=rhs.name)||(id!=rhs.id)||(storage!=rhs.storage)||(price!=rhs.price))
+        if((name!=rhs.name)||(id!=rhs.id)||(price!=rhs.price))
         {
             return false;
         }

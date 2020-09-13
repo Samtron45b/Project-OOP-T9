@@ -5,11 +5,75 @@
 #include <set>
 #include "myLib.hpp"
 #include <algorithm>
+#include <sstream>
+#include <filesystem>
 
 using namespace std;
-
+namespace fs = ::filesystem;
 const string url = "./data/";
+void updateTotal(string link,map<item,int>cart, float money,float discount=0)
+{
+    bool exist = fs::exists(link + "/total.csv");
+    fstream csvFile;
+    map<item, int> tmp;
+    if (exist)
+    {
+        csvFile.open(link + "/total.csv", ios::in);
+        if (csvFile.is_open())
+        {
+            string line;
+            string token;
+            item dum;
+            int foo;
+            float total;
 
+            while (getline(csvFile, line))
+            {
+                if (line.find("Total:") != string::npos)
+                {
+                    break;
+                }
+                stringstream check(line);
+                getline(check, token, ',');
+                dum.id = stoi(token);
+                getline(check, token, ',');
+                dum.name = token;
+                getline(check, token, ',');
+                foo = stoi(token);
+                getline(check, token, ',');
+                dum.price = stof(token);
+                getline(check, token);
+                tmp[dum] += foo;
+            }
+            csvFile.close();
+        }
+        if (tmp.size() != 0)
+        {
+            for (auto x : cart)
+            {
+                tmp[x.first] += x.second;
+            }
+        }
+        csvFile.open(link + "/total.csv", ios::out);
+        for (auto x : tmp)
+        {
+            csvFile << x.first.id << "," << x.first.name << "," << x.second << "," << x.first.price << "," << x.first.price * x.second << endl;
+        }
+        csvFile << "Total:" << "," << money << endl;
+        csvFile.close();
+    }
+    else
+    {
+        csvFile.open(link + "/total.csv", ios::out);
+        for (auto x : cart)
+        {
+            csvFile << x.first.id << "," << x.first.name << "," << x.second << "," << x.first.price << "," << x.first.price * x.second << endl;
+        }
+        csvFile << "Total:" << "," << money << endl;
+        csvFile.close();
+    }
+    
+}
 float point(float pay)
 {
     return pay / 10;
@@ -206,6 +270,7 @@ void guest::exportFile()
     makeDir(link);
     link += '/' + to_string(today.month);
     makeDir(link);
+    updateTotal(link, cart, money);
     link += '/' + to_string(today.day);
     bool test = makeDir(link);
     fstream myFile;
@@ -213,7 +278,6 @@ void guest::exportFile()
     {
         myFile.open(link + "/count.dat", ios::out);
         myFile << 0 << endl;
-        myFile.close();
     }
     int count;
     fstream file1(link + "/count.dat", ios::in);
@@ -410,7 +474,7 @@ void member::menu()
             else
             {
                 cout << "(0) Go home\n";
-                cout << "(1) Update info";
+                cout << "(1) Update info\n";
                 cout << "(2) Shopping\n";
                 cout << "(3) View cart\n";
                 cout << "(4) View favorite\n";
@@ -445,7 +509,7 @@ void member::menu()
             {
                 cout << "This is your bill!\n\n";
                 output();
-                cout << "Total       : " << setfill(' ') << setw(40) << fixed << setprecision(3) << payment() << "  |" << endl;
+                cout << "Total       : " << setfill(' ') << setw(40) << fixed << setprecision(3) << money << "  |" << endl;
                 exportFile();
                 cout << "\n\n";
             }
@@ -460,7 +524,6 @@ void member::menu()
             save();
             cout << "Goodbye!\n";
             cout << "Have a nice day!\n";
-            exportFile();
             getchar();
             clearConsole();
             break;
@@ -511,10 +574,11 @@ void member::menu()
             bool checkInput = true;
             int choice = -1;
             int itemID, ord=-1;
-            bool checkItem = true;
+            bool checkItem = false;
             int cont = 1;
             while (true)
             {
+                checkItem = false;
                 checkInput = false;
                 while (true)
                 {
@@ -526,7 +590,7 @@ void member::menu()
                     cout << endl << "(0): Exit\n";
                     cout << "Input id of the item you want to buy: ";
                     cin >> itemID;
-                    if (itemID<0)
+                    if (itemID<=0)
                     {
                         cont = 0;
                         break;
@@ -653,6 +717,7 @@ void member::exportFile()
     makeDir(link);
     link += '/' + to_string(today.month);
     makeDir(link);
+    updateTotal(link, cart, money, discount(rank, DoB.birthdayMonth()));
     link += '/' + to_string(today.day);
     bool test = makeDir(link);
     fstream myFile;
@@ -720,8 +785,9 @@ double member::payment(bool change)
             use = true;
         }
     }
-    if (res == 0)
-        res = money * (1 - discount(rank, false));
+    if(!res)
+    {    res = money * (1 - discount(rank, false));
+    }
     if (change)money = res;
     return res;
 }

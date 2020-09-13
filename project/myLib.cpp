@@ -61,7 +61,6 @@ int makeFolder(const std::string& s)
 
     return 0;
 }
-
 bool makeDir(const std::string& dir)
 {
     size_t pos;

@@ -1,11 +1,13 @@
 #ifndef _MANAGER_HPP_
 #define _MANAGER_HPP_
 
+#include "Account.h"
 #include "staff.hpp"
 #include <vector>
 #include <direct.h>
 #include <filesystem>
 #include <sstream>
+#include <map>
 class manager : public person
 {
 private:

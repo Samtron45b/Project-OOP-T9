@@ -1,5 +1,4 @@
 #include "manager.hpp"
-#include "Account.h"
 bool checkStaffID(int ID, bool save, int type)
 {
     ifstream list;
@@ -268,7 +267,7 @@ void manager::menu()
             deleteStaff();
             break;
         case 4: //Show Monthly Sales
-            //  monthlySales();
+            monthlySales();
             break;
         }
         cout << "Return to Manager Menu(Y/N)?: ";

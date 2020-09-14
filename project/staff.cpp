@@ -1,6 +1,5 @@
 #include "staff.hpp"
 #include "manager.hpp"
-#include "Account.h"
 bool is_Number(const string &s)
 {
     return !s.empty() && find_if(s.begin(),
@@ -471,4 +470,78 @@ void staff::get(int ID)
 int staff::getID()
 {
     return stoi(id);
+}
+
+void staff::showOrder()
+{
+    system("cls");
+    date time;
+    int count = 0, choice;
+    char cont;
+    vector<string> list;
+    string path;
+    do
+    {
+        system("cls");
+        cout << "Enter Date of Order: " << endl;
+        cin >> time;
+        path = "./data/export/" + to_string(time.year) + "/" + to_string(time.month) + "/" + to_string(time.day);
+        if (!filesystem::exists(path))
+        {
+            cout << "\nOrder does not exist! Try another date" << endl;
+            system("pause");
+        }
+    } while (!filesystem::exists(path));
+
+    do
+    {
+        system("cls");
+        count = 0;
+        cout << "List of Record\n\n";
+        for (const auto &entry : filesystem::directory_iterator(path))
+        {
+            cout << "[" << count << "] ";
+            std::cout << entry.path() << "\n\n";
+            list.push_back((entry.path()).string());
+            count++;
+        }
+        cout << "[" << count << "] Exit\n";
+        cout << "\nChoose Record(0~" << count << "): ";
+        cin >> choice;
+
+        if (choice == count)
+        {
+            system("cls");
+            cout << "See You Next Time!" << endl;
+            system("pause");
+            return;
+        }
+
+        ifstream file(list[choice]);
+        if (file.is_open())
+        {
+            string line;
+            system("cls");
+            while (getline(file, line))
+                cout << line << endl;
+        }
+        else
+            cout << "Cannot Open Record!" << endl;
+
+        cout << "\n\nContinue to Show Record(Y/N)?: ";
+        cin >> cont;
+        cin.ignore(1);
+
+        switch (cont)
+        {
+        case 'Y':
+        case 'y':
+            break;
+        case 'N':
+        case 'n':
+            system("cls");
+            cout << "See You Next Time!" << endl;
+            system("pause");
+        }
+    } while (cont == 'Y' || cont == 'y');
 }

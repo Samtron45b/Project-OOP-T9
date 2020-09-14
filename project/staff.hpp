@@ -1,6 +1,7 @@
 #ifndef _STAFF_HPP_
 #define _STAFF_HPP_
 
+#include "Account.h"
 #include "myLib.hpp"
 #include "guest.hpp"
 #include "person.hpp"
@@ -35,6 +36,7 @@ public:
     virtual void save();
     virtual void get(int ID); // Not Override yet!
     virtual int getID();
+    void showOrder();
 };
 bool is_Number(const string &s);
 

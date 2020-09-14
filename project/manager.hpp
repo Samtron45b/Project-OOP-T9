@@ -17,11 +17,7 @@ public:
     void addNewStaff();
     void updateStaff();
     void deleteStaff();
-    vector<double> monthlySales()
-    {
-        vector<double> null;
-        return null;
-    } // ???
+    void monthlySales();
     void menu();
     void save();
     void get(int ID);

@@ -227,12 +227,14 @@ void staff::menu()
         cout << "(6) Update Record" << endl;
         cout << "(7) Delete Record" << endl;
         cout << "(8) Search Record" << endl;
+        cout << "(9)Show Order" << endl;
 
-        cout << "Input Your Choice: ";
+        cout
+            << "Input Your Choice: ";
         do
         {
             checkInput = cinIg(cin, choice, true);
-        } while (choice < 0 || choice > 8 || checkInput == false);
+        } while (choice < 0 || choice > 9 || checkInput == false);
         switch (choice)
         {
         case 0:
@@ -263,6 +265,9 @@ void staff::menu()
             break;
         case 8:
             searchRecord();
+            break;
+        case 9:
+            showOrder();
             break;
         }
         cout << "\n";

@@ -9,6 +9,8 @@
 #include "person.hpp"
 using namespace std;
 
+bool anonymous=false;
+
 bool Account::isExist(string _username)
 {
 	bool flag=false;
@@ -80,6 +82,7 @@ bool Account::create(int mode)
 		{
 			tmp = new member;
 		}
+		_type = mode + 1;
 	}
 	if (print.is_open())
 	{
@@ -274,7 +277,9 @@ void Account::login()
 	{
 		{
 			myMan = new guest;
-			cout << "Logged in as Guest!";
+			anonymous = true;
+			cout << "Logged in as Guest!\n";
+			return;
 		}
 	}
 
@@ -311,9 +316,10 @@ void Account::login()
 void Account::menu()
 {
 	Account you;
-	int option;
+	int option=0;
 	bool flag;
 	bool checkInput;
+	bool first = true;
 	do
 	{
 		if (you.myMan == nullptr)
@@ -330,7 +336,7 @@ void Account::menu()
 				option = 0;
 			}
 		}
-		else
+		else if(!anonymous)
 		{
 			myMan->person::output(false);
 			cout << "\n\n";
@@ -351,6 +357,19 @@ void Account::menu()
 				if(option)
 					option += 2;
 			}
+		}
+		else if(first)
+		{
+			option = 5;
+			first = false;
+		}
+		else
+		{
+			option = 0;
+			cout << "=======MENU=======" << endl;
+			cout << "Input anything to exit\n";
+			cout << "==================" << endl;
+			system("pause");
 		}
 		clearConsole();
 		switch (option)

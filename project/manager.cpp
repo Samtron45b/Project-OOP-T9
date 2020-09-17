@@ -391,6 +391,8 @@ void manager::monthlySales()
     map<item, int> tmp;
     float total = 0;
 
+    cout << "\nSales in " << month << "/" << year << endl;
+
     if (sales.is_open())
     {
         cout << "\nOpen File Successfully!" << endl;
@@ -433,6 +435,12 @@ void manager::monthlySales()
             cout << "\n|" << left << setw(4) << x.first.id << "|" << left << setw(10) << x.first.name << "|" << left << setw(10) << x.second << "|" << left << setw(8) << x.first.price << "|" << endl;
         }
         cout << "\nTotal: " << total << "\n\n";
+    }
+    else
+    {
+        cout << "Total: 0\n"
+             << endl;
+        system("pause");
     }
 }
 

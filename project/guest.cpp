@@ -132,7 +132,7 @@ void guest::menu()
                 else
                 {
                     cout << "Error! Choose again:" << endl;
-                    getchar();
+                    system("pause");
                     clearConsole();
                 }
             }
@@ -150,7 +150,7 @@ void guest::menu()
                 else
                 {
                     cout << "Error! Choose again:" << endl;
-                    getchar();
+                    system("pause");
                     clearConsole();
                 }
             }
@@ -234,7 +234,7 @@ void guest::menu()
             }
             cout << "Have a nice day!\n";
 
-            getchar();
+            system("pause");
             clearConsole();
         }
         break;
@@ -473,7 +473,7 @@ void member::menu()
                 else
                 {
                     cout << "Error! Choose again:" << endl;
-                    getchar();
+                    system("pause");
                     clearConsole();
                 }
             }
@@ -500,7 +500,7 @@ void member::menu()
                 else
                 {
                     cout << "Error! Choose again:" << endl;
-                    getchar();
+                    system("pause");
                     clearConsole();
                 }
             }
@@ -530,7 +530,7 @@ void member::menu()
             save();
             cout << "Goodbye!\n";
             cout << "Have a nice day!\n";
-            getchar();
+            system("pause");
             clearConsole();
             break;
         case 1:
@@ -655,14 +655,14 @@ void member::menu()
             }
 
             cout << "Press Enter to continue... ";
-            getchar();
+            system("pause");
             clearConsole();
             temp.clear();
             break;
         case 6:
             output();
             cout << "Total       : " << setfill(' ') << setw(38) << fixed << setprecision(3) << payment() << endl;
-            getchar();
+            system("pause");
             clearConsole();
             break;
         default:
@@ -860,7 +860,7 @@ void member::updateFile(int type, item value, int choice)
             else
             {
                 cout << "File not found!\n";
-                getchar();
+                system("pause");
                 clearConsole();
             }
         }
@@ -891,7 +891,7 @@ void member::updateFile(int type, item value, int choice)
             else
             {
                 cout << "File not found!\n";
-                getchar();
+                system("pause");
                 clearConsole();
             }
 
@@ -907,7 +907,7 @@ void member::updateFile(int type, item value, int choice)
             else
             {
                 cout << "File not found!\n";
-                getchar();
+                system("pause");
                 clearConsole();
             }
         }
@@ -939,7 +939,7 @@ void member::updateFile(int type, item value, int choice)
         else
         {
             cout << "File not found!\n";
-            getchar();
+            system("pause");
             clearConsole();
         }
 
@@ -962,7 +962,7 @@ void member::updateFile(int type, item value, int choice)
         else
         {
             cout << "File not found!\n";
-            getchar();
+            system("pause");
             clearConsole();
         }
     }
@@ -981,7 +981,7 @@ void member::updateFile(int type, item value, int choice)
             else
             {
                 cout << "File not found!\n";
-                getchar();
+                system("pause");
                 clearConsole();
             }
         }
@@ -1011,7 +1011,7 @@ void member::updateFile(int type, item value, int choice)
             else
             {
                 cout << "File not found!\n";
-                getchar();
+                system("pause");
                 clearConsole();
             }
             myFile.open(link + "preOrder.txt", ios::out);
@@ -1026,7 +1026,7 @@ void member::updateFile(int type, item value, int choice)
             else
             {
                 cout << "File not found!\n";
-                getchar();
+                system("pause");
                 clearConsole();
             }
         }
@@ -1063,7 +1063,7 @@ vector<item> member::viewHistory()
     else
     {
         cout << "File not found!\n";
-        getchar();
+        system("pause");
         clearConsole();
     }
     return tmp;
@@ -1085,7 +1085,7 @@ vector<item> member::preOrder()
     else
     {
         cout << "File not found!\n";
-        getchar();
+        system("pause");
         clearConsole();
     }
     return tmp;
@@ -1114,7 +1114,7 @@ bool member::buy(std::vector<item> list, int _id,int type)
             else
             {
                 cout << "File not found!\n";
-                getchar();
+                system("pause");
                 clearConsole();
                 return false;
             }
@@ -1148,7 +1148,7 @@ bool member::buy(std::vector<item> list, int _id,int type)
     else
     {
         cout << "File not found!\n";
-        getchar();
+        system("pause");
         clearConsole();
         return false;
     }
@@ -1158,6 +1158,7 @@ void member::save() {
     string link = url + "member/" + to_string(id);
     makeDir(link);
     ofstream info(link + "/info.dat");
+    if (!rank)rank = 3;
     if (info.is_open())
     {
         auto [Date, Name, Tel] = person::get();
@@ -1188,7 +1189,7 @@ vector<item> member::favoriteitem()
     else
     {
         cout << "File not found!\n";
-        getchar();
+        system("pause");
         clearConsole();
     }
     return tmp;

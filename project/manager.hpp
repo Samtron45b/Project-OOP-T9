@@ -24,6 +24,7 @@ public:
     void save();
     void get(int ID);
     int getID();
+    void showStaff();
 };
 
 bool checkStaffID(int id, bool save, int type);

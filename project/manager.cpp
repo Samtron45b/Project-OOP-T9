@@ -85,7 +85,7 @@ void manager::addNewStaff()
     do
     {
         system("cls");
-        cout << "Add New Staff?(Y/ N):";
+        cout << "Add New Staff(Y/ N)?: ";
         cin >> choice;
         cin.ignore(1);
         switch (choice)
@@ -102,10 +102,12 @@ void manager::addNewStaff()
         default:
         {
             cout << "No New Staff Added!" << endl;
+            system("pause");
+            return;
         }
         }
         system("cls");
-        cout << "Continue to Add New Staff?(Y/N):";
+        cout << "Continue to Add New Staff?(Y/N): ";
         cin >> cont;
         system("cls");
     } while (cont == 'Y' || cont == 'y');
@@ -125,14 +127,14 @@ void manager::updateStaff()
         } while (is_Number(to_string(id)) == false);
         if (checkStaffID(id, false, 1) == true)
         {
-            cout << "ID not found!" << endl;
+            cout << "\nID not found!" << endl;
+            system("pause");
         }
         else
         {
             char cont;
             cout << "ID Found!\n\n";
-            cout << "Update This Staff?(Y/N)" << endl;
-            cout << "Your Choice:";
+            cout << "Update This Staff(Y/N)?: ";
             cin >> cont;
             cin.ignore(1);
             switch (cont)
@@ -171,6 +173,7 @@ void manager::updateStaff()
             case 'n':
             default:
                 cout << "Stop Updating Staff!" << endl;
+                system("pause");
                 break;
             }
         }
@@ -196,7 +199,7 @@ void manager::deleteStaff()
         if (checkStaffID(id, false, 1) == false)
         {
             cout << "ID Found!" << endl;
-            cout << "\nDo you want to delete this staff?(Y/N): ";
+            cout << "\nDo you want to delete this staff(Y/N)?: ";
             cin >> cont;
             if (cont == 'Y' || cont == 'y')
             {
@@ -206,7 +209,11 @@ void manager::deleteStaff()
                 cout << "\nStaff Deleted!" << endl;
             }
             else
+            {
+                cout << "\nNo Staff Deleted!\n";
+                system("pause");
                 break;
+            }
         }
         else
         {
@@ -243,13 +250,14 @@ void manager::menu()
         cout << "(1) Add New Staff" << endl;
         cout << "(2) Update Staff" << endl;
         cout << "(3) Delete Staff" << endl;
-        cout << "(4) Show Monthly Sales" << endl;
+        cout << "(4) Find Staff by ID" << endl;
+        cout << "(5) Show Monthly Sales" << endl;
 
         cout << "Input Your Choice: ";
         do
         {
             checkInput = cinIg(cin, choice, true);
-        } while (choice < 0 || choice > 4 || checkInput == false);
+        } while (choice < 0 || choice > 5 || checkInput == false);
         switch (choice)
         {
         case 0:
@@ -266,10 +274,15 @@ void manager::menu()
         case 3: //Delete Staff
             deleteStaff();
             break;
-        case 4: //Show Monthly Sales
+        case 4: //Find Staff
+            showStaff();
+            break;
+        case 5: //Show Monthly Sales
             monthlySales();
             break;
         }
+
+        system("cls");
         cout << "Return to Manager Menu(Y/N)?: ";
         cin >> cont;
         cin.ignore(1);
@@ -378,6 +391,8 @@ void manager::monthlySales()
     map<item, int> tmp;
     float total = 0;
 
+    cout << "\nSales in " << month << "/" << year << endl;
+
     if (sales.is_open())
     {
         cout << "\nOpen File Successfully!" << endl;
@@ -421,4 +436,48 @@ void manager::monthlySales()
         }
         cout << "\nTotal: " << total << "\n\n";
     }
+    else
+    {
+        cout << "Total: 0\n"
+             << endl;
+        system("pause");
+    }
+}
+
+void manager::showStaff()
+{
+    int id;
+    char cont;
+    do
+    {
+        system("cls");
+        cout << "Enter Staff ID:";
+        cin >> id;
+        if (checkStaffID(id, false, 1) == true)
+        {
+            cout << "ID not found!\n\n";
+        }
+        else
+        {
+            cout << "Staff Found!\n\n"
+                 << endl;
+            staff *obj = new staff;
+            obj->get(id);
+            obj->output();
+
+            delete obj;
+        }
+        cout << "Continue to Show Staff(Y/N)?: ";
+        cin >> cont;
+        cin.ignore(1);
+        switch (cont)
+        {
+        case 'Y':
+        case 'y':
+            break;
+        case 'N':
+        case 'n':
+            return;
+        }
+    } while (cont == 'Y' || cont == 'y');
 }

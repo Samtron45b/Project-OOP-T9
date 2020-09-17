@@ -80,6 +80,7 @@ void staff::checkIn()
         throw "File cannnot open";
     else
     {
+        system("cls");
         if (timeinfo->tm_hour < 18)
         {
             cout << "Check-in Successfully!" << endl;
@@ -119,6 +120,7 @@ void staff::addNewMem()
         default:
         {
             cout << "No New Member Added" << endl;
+            return;
         }
         }
         cout << "\nContinue to Add New Member?(Y/N): ";
@@ -129,84 +131,119 @@ void staff::addNewMem()
 void staff::showMem()
 {
     int id;
-    system("cls");
-    cout << "Enter Member ID:";
-    cin >> id;
-    if (checkID(id, 1, false) == true)
-    {
-        cout << "ID not found!" << endl;
-        return;
-    }
-    else
-    {
-        cout << "Member Found!" << endl;
-        member *obj = new member;
-        obj->get(id);
-        obj->output();
-    }
-}
-
-void staff::updateMem()
-{
-
-    int id;
+    char cont;
     do
     {
         system("cls");
         cout << "Enter Member ID:";
         cin >> id;
-    } while (is_Number(to_string(id)) == false);
-    if (checkID(id, 1, false) == true)
-    {
-        cout << "ID not found!" << endl;
-    }
-    else
-    {
-        char cont;
-        cout << "ID Found!" << endl;
-        cout << "\nUpdate This Member?(Y/N): ";
+        if (checkID(id, 1, false) == true)
+        {
+            cout << "ID not found!\n\n";
+        }
+        else
+        {
+            cout << "Member Found!" << endl;
+            member *obj = new member;
+            obj->get(id);
+            obj->output();
+
+            delete obj;
+        }
+        cout << "Continue to Show Member(Y/N)?: ";
         cin >> cont;
         cin.ignore(1);
         switch (cont)
         {
         case 'Y':
         case 'y':
-        {
-            clearConsole();
-            member *temp = new member(id);
-            ofstream info("./data/member/" + to_string(id) + "/info.dat");
-            if (info.is_open())
-            {
-                //Need a member save() function
-                string name, tel;
-                date d;
-                cout << "Enter New Name: ";
-                getline(cin, name);
-                cout << "Enter New Telephone Number: ";
-                getline(cin, tel);
-                cout << "Date of Birth" << endl;
-                cin >> d;
-                temp->set(d, name, tel);
-                temp->save();
-                info.close();
-                cout << "Update Member Successfully!\n\n"
-                     << endl;
-                temp->output();
-            }
-            else
-            {
-                cout << "Cannot Open File!" << endl;
-            }
             break;
-        }
         case 'N':
         case 'n':
-        default:
-            cout << "Stop Updating Member!" << endl;
-            system("pause");
-            break;
+            return;
         }
-    }
+    } while (cont == 'Y' || cont == 'y');
+}
+
+void staff::updateMem()
+{
+
+    int id;
+    char cont;
+    do
+    {
+        do
+        {
+            system("cls");
+            cout << "Enter Member ID:";
+            cin >> id;
+        } while (is_Number(to_string(id)) == false);
+        if (checkID(id, 1, false) == true)
+        {
+            cout << "ID not found!" << endl;
+        }
+        else
+        {
+            char cont;
+            cout << "ID Found!" << endl;
+            cout << "\nUpdate This Member?(Y/N): ";
+            cin >> cont;
+            cin.ignore(1);
+            switch (cont)
+            {
+            case 'Y':
+            case 'y':
+            {
+                clearConsole();
+                member *temp = new member(id);
+                ofstream info("./data/member/" + to_string(id) + "/info.dat");
+                if (info.is_open())
+                {
+                    //Need a member save() function
+                    string name, tel;
+                    date d;
+                    cout << "Enter New Name: ";
+                    getline(cin, name);
+                    cout << "Enter New Telephone Number: ";
+                    getline(cin, tel);
+                    cout << "Date of Birth" << endl;
+                    cin >> d;
+                    temp->set(d, name, tel);
+                    temp->save();
+                    info.close();
+                    cout << "Update Member Successfully!\n\n"
+                         << endl;
+                    temp->output();
+                }
+                else
+                {
+                    cout << "Cannot Open File!" << endl;
+                }
+                break;
+            }
+            case 'N':
+            case 'n':
+            default:
+                cout << "Stop Updating Member!" << endl;
+                system("pause");
+                break;
+            }
+        }
+
+        cout << "\nContinue to Update Member(Y/N)?: ";
+        cin >> cont;
+        cin.ignore(1);
+
+        switch (cont)
+        {
+        case 'Y':
+        case 'y':
+            break;
+        case 'N':
+        case 'n':
+            return;
+        }
+    } while (cont == 'Y' || cont == 'y');
 }
 
 void staff::menu()
@@ -227,10 +264,8 @@ void staff::menu()
         cout << "(6) Update Record" << endl;
         cout << "(7) Delete Record" << endl;
         cout << "(8) Search Record" << endl;
-        cout << "(9)Show Order" << endl;
-
-        cout
-            << "Input Your Choice: ";
+        cout << "(9) Show Order" << endl;
+        cout << "Input Your Choice: ";
         do
         {
             checkInput = cinIg(cin, choice, true);
@@ -277,6 +312,7 @@ void staff::menu()
         cin >> cont;
         cin.ignore(1);
 
+        clearConsole();
         switch (cont)
         {
         case 'Y':
@@ -285,9 +321,8 @@ void staff::menu()
         case 'N':
         case 'n':
         default:
-            cout << "See You Next Time" << endl;
+            cout << "See You Next Time!" << endl;
             system("pause");
-            clearConsole();
             break;
         }
     } while (cont == 'Y' || cont == 'y');
@@ -518,7 +553,6 @@ void staff::showOrder()
         {
             system("cls");
             cout << "See You Next Time!" << endl;
-            system("pause");
             return;
         }
 
@@ -546,7 +580,6 @@ void staff::showOrder()
         case 'n':
             system("cls");
             cout << "See You Next Time!" << endl;
-            system("pause");
         }
     } while (cont == 'Y' || cont == 'y');
 }

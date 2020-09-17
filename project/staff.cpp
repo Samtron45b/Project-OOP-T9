@@ -147,6 +147,8 @@ void staff::showMem()
             member *obj = new member;
             obj->get(id);
             obj->output();
+
+            delete obj;
         }
         cout << "Continue to Show Member(Y/N)?: ";
         cin >> cont;
@@ -551,7 +553,6 @@ void staff::showOrder()
         {
             system("cls");
             cout << "See You Next Time!" << endl;
-            system("pause");
             return;
         }
 

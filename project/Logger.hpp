@@ -38,6 +38,6 @@ public:
     {
         Logger::destroyInstance();
     }
-    ~StaffLog(){};
+    ~StaffLog() { fout.close(); };
 };
 #endif // !_LOGGER_H_

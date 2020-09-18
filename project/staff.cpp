@@ -8,6 +8,7 @@ bool is_Number(const string &s)
 
 staff::staff(int id)
 {
+    stafflog = StaffLog::createInstance();
     ifstream info("./data/staff/" + to_string(id) + "/info.dat");
     if (info.is_open())
     {
@@ -93,6 +94,8 @@ void staff::checkIn()
         }
         outfile.close();
     }
+
+    stafflog->log("Staff #" + id + " Check-in");
 }
 
 void staff::addNewMem()
@@ -109,10 +112,12 @@ void staff::addNewMem()
         case 'Y':
         case 'y':
         {
-            Account acc;
-            acc.create(2);
+            Account *acc = new Account;
+            acc->create(2);
             clearConsole();
             cout << "New Member Added!" << endl;
+            stafflog->log("Staff #" + id + " add new member");
+
             break;
         }
         case 'N':
@@ -214,6 +219,8 @@ void staff::updateMem()
                     cout << "Update Member Successfully!\n\n"
                          << endl;
                     temp->output();
+
+                    stafflog->log("Staff #" + this->id + " updated member #" + to_string(id));
                 }
                 else
                 {
@@ -361,6 +368,8 @@ void staff::inputItem()
             item obj;
             obj.input();
             cout << "\nNew Record Added!" << endl;
+            stafflog->log("Staff #" + id + " add new item" + to_string(obj.id));
+
             system("pause");
             break;
         }
@@ -395,6 +404,8 @@ void staff::updateRecord()
         case 'Y':
         case 'y':
             temp->update();
+            stafflog->log("Staff #" + this->id + " updated item #" + to_string(temp->id));
+
             cout << "\nItem's Updated!" << endl;
             break;
         case 'N':
@@ -408,6 +419,7 @@ void staff::updateRecord()
     {
         cout << "No Item's Found!" << endl;
     }
+    delete temp;
 }
 
 bool staff::deleteRecord()
@@ -437,6 +449,9 @@ bool staff::deleteRecord()
             case 'Y':
             case 'y':
                 // Need an ID Update Function;
+                temp->deleteByID(id);
+                stafflog->log("Staff #" + this->id + " delete item #" + to_string(temp->id));
+
                 cout << "Item's Deleted!" << endl;
                 res = true;
                 break;
@@ -457,6 +472,8 @@ bool staff::deleteRecord()
         cin >> cont;
 
     } while (cont == 'Y' || cont == 'y');
+
+    delete temp;
     return res;
 }
 

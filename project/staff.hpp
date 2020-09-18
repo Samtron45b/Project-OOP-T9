@@ -1,6 +1,7 @@
 #ifndef _STAFF_HPP_
 #define _STAFF_HPP_
 
+#include "Logger.hpp"
 #include "Account.h"
 #include "myLib.hpp"
 #include "guest.hpp"
@@ -16,12 +17,13 @@ using namespace std;
 class staff : public person
 {
 private:
+    Logger *stafflog;
     string id;
 
 public:
-    staff(){};
+    staff() { stafflog = StaffLog::createInstance(); };
     staff(int id);
-    ~staff(){};
+    ~staff() { stafflog->destroyInstance(); };
     virtual void input();
     virtual void output();
     void checkIn();

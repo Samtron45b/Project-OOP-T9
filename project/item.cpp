@@ -278,6 +278,35 @@ bool item::deleteByID(int ID)
         item tmp;
         *this = tmp;
     }
+    myFile.open(url + "item/ID_List.dat", ios::in);
+    vector<int> IDlist;
+    if (myFile.is_open())
+    {
+        int dum;
+        while (myFile >> dum)
+        {
+            if(ID!=dum)
+                IDlist.push_back(dum);
+        }
+    }
+    else
+    {
+        cout << "ID_List.txt not found!\n";
+        return false;
+    }
+    myFile.open(url + "item/ID_List.dat", ios::out);
+    if (myFile.is_open())
+    {
+        for (auto x : IDlist)
+        {
+            myFile << x << endl;
+        }
+    }
+    else
+    {
+        cout << "ID_List.txt not found!\n";
+        return false;
+    }
     return res;
 }
 item item::find(int ID)

@@ -93,8 +93,9 @@ void manager::addNewStaff()
         case 'Y':
         case 'y':
         {
-            Account acc;
-            acc.create(1);
+            Account *acc = new Account;
+            acc->create(1);
+            cout << "New Staff Added!" << endl;
             break;
         }
         case 'N':
@@ -106,10 +107,10 @@ void manager::addNewStaff()
             return;
         }
         }
+        system("pause");
         system("cls");
         cout << "Continue to Add New Staff?(Y/N): ";
         cin >> cont;
-        system("cls");
     } while (cont == 'Y' || cont == 'y');
 }
 
@@ -252,12 +253,12 @@ void manager::menu()
         cout << "(3) Delete Staff" << endl;
         cout << "(4) Find Staff by ID" << endl;
         cout << "(5) Show Monthly Sales" << endl;
-
+        cout << "(6) Check Staff Log" << endl;
         cout << "Input Your Choice: ";
         do
         {
             checkInput = cinIg(cin, choice, true);
-        } while (choice < 0 || choice > 5 || checkInput == false);
+        } while (choice < 0 || choice > 6 || checkInput == false);
         switch (choice)
         {
         case 0:
@@ -280,6 +281,9 @@ void manager::menu()
         case 5: //Show Monthly Sales
             monthlySales();
             break;
+        case 6: //Staff log
+            checkLog();
+            break;
         }
 
         system("cls");
@@ -294,7 +298,7 @@ void manager::menu()
         case 'N':
         case 'n':
         default:
-            cout << "See You Next Time" << endl;
+            cout << "See You Next Time!" << endl;
             system("pause");
             clearConsole();
             break;
@@ -480,4 +484,18 @@ void manager::showStaff()
             return;
         }
     } while (cont == 'Y' || cont == 'y');
+}
+
+void manager::checkLog()
+{
+    system("cls");
+    ifstream fin("./data/log/stafflog.txt");
+    cout << "==========STAFF LOG=========="
+         << "\n\n";
+
+    string line;
+    while (getline(fin, line))
+        cout << line << endl;
+    cout << "\n\n";
+    system("pause");
 }

@@ -55,21 +55,22 @@ bool Account::create(int mode)
 	print.open("./data/account/account.txt",ios::app);
 	if (!mode)
 	{
-		cout << "Your account type: ";
+		cout << "Enter your account type (1 for Manager, 2 for Staff, 3 for Member): ";
 		cin >> _type;
 		delete tmp;
 		if (_type == 1)
 		{
 			tmp = new manager;
 		}
-		if (_type == 2)
+		else if (_type == 2)
 		{
 			tmp = new staff;
 		}
-		if (_type == 3)
+		else
 		{
 			tmp = new member;
 		}
+
 	}
 	else
 	{
@@ -370,6 +371,7 @@ void Account::menu()
 			cout << "Input anything to exit\n";
 			cout << "==================" << endl;
 			system("pause");
+			anonymous = false;
 		}
 		clearConsole();
 		switch (option)
